@@ -1,3 +1,8 @@
 12/8/2023
-Waleed:editing and cropping png files for the game's assests.()
-I have arrived
+Waleed:editing and cropping png files for the game's assests.
+Waleed:added 70 lines of code check the history button in the file or the blame feature to see all the changes and updates some pics
+
+Todolist: 
+1.add the other animations as functions
+2.look into how to make those functions work and generate no of enemies and places randomization code
+3.finish the rest of the datasheets to add the enemies.
