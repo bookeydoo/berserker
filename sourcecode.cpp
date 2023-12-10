@@ -108,3 +108,19 @@ void Mainmenu(){
   graphics.setDrawingColor(COLORS::RED);
   graphics.drawText((w/3),(l/3),"press F to start the game");
 }
+
+
+
+int main(){
+  graphics.setup();
+  graphics.setFullScreenMode();
+
+
+
+
+
+  
+  graphics.endDraw();
+  return 0;
+
+}
