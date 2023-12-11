@@ -6,7 +6,7 @@
 #include<Windows.h>
 #define FramesPerSec 30 
 
-
+int terrain;
 
 class Guts
 {
@@ -162,6 +162,8 @@ int main(){
   Mainmenu();
 
   Guts player;
+  player.Normalstate();
+  graphics.loadImage("");                          //add the terrain to load it 
 
 
 
