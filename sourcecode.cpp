@@ -32,15 +32,13 @@ void updatePlayerLocation(int x,int y){
 
 }
 void deathanimation(){  
-  int*death;
-  death=new int[1];
-
   
-  death[0]=graphics.loadImage("images\\death");
-  graphics.drawImage(death[0],w-400,h-400,RGB(0,0,0));
+     
+ int death=graphics.loadImage("images\\death");
+  graphics.drawImage(death,w-400,h-400,RGB(0,0,0));
   Sleep(300);
   
-  graphics.resizeImage(death[0],w,h);
+  graphics.resizeImage(death,w,h);
   graphics.setDrawingColor(COLORS::RED);
   graphics.setFontSizeAndBoldness(150,25);
   graphics.drawText(Xp,Yp+200,"You have died");
@@ -52,6 +50,17 @@ void checkstate(bool alive){
   }
   
 }
+
+void Normalstate() {
+graphics.loadImage("images\\gutsIdle1");
+graphics.loadImage("images\\gutsIdle2");
+graphics.loadImage("images\\gutsIdle3");
+graphics.loadImage("images\\gutsIdle4");
+graphics.loadImage("images\\gutsIdle5");
+}
+
+
+
 void basicRunningSprites(){
   mvF= new int[10];
   mvF[0]=graphics.loadImage("images\\Running1");
@@ -93,9 +102,34 @@ void DSsprites(){
 }
 
 };
+
+class enemies {
+public:
+    bool alive ;
+    bool framedirection;
+    int Xp, Yp;
+    int speed;
+    int hp;
+
+    void checkstate(){   
+    
+                }
+
+};
 CC212SGL graphics;
 
 
+void loadingscreen() {
+    int w = graphics.getWindowWidth();
+    int l = graphics.getWindowHeight();
+    int loadingscreenimg = graphics.loadImage("images\\guts angry");
+    graphics.resizeImage(loadingscreenimg, w/3, l/3);
+    graphics.drawImage(loadingscreenimg,w-300, l - 500,RGB(0,0,0));
+    graphics.setDrawingColor(COLORS::RED);
+    graphics.drawText(w / 3, l - 500, "loading");
+        
+    
+}
 void Mainmenu(){
   int w=graphics.getWindowWidth();
   int l=graphics.getWindowHeight();
@@ -107,6 +141,15 @@ void Mainmenu(){
   graphics.drawText((w/2),(l/2),"Berserker alpha version");
   graphics.setDrawingColor(COLORS::RED);
   graphics.drawText((w/3),(l/3),"press F to start the game");
+  while (1) {
+     char ch= getchar();
+     if (ch == 'f' || ch=='F') {
+         loadingscreen();
+
+         break;
+
+     }   
+  }
 }
 
 
@@ -114,6 +157,11 @@ void Mainmenu(){
 int main(){
   graphics.setup();
   graphics.setFullScreenMode();
+  graphics.hideCursor();
+
+  Mainmenu();
+
+  Guts player;
 
 
 
