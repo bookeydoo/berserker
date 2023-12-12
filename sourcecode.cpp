@@ -5,7 +5,7 @@
 #include<time.h>
 #include<Windows.h>
 #define FramesPerSec 30 
-
+CC212SGL graphics;
 int terrain;
 
 class Guts
@@ -116,7 +116,7 @@ public:
                 }
 
 };
-CC212SGL graphics;
+
 
 
 void loadingscreen() {
