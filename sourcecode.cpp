@@ -163,7 +163,7 @@ int main(){
 
   Guts player;
   player.Normalstate();
-  graphics.loadImage("");                          //add the terrain to load it 
+  graphics.loadImage("images\\Pillar Terrain");                          //add the terrain to load it 
 
 
 
