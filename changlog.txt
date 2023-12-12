@@ -6,3 +6,4 @@ Todolist:
 1.add the other animations as functions
 2.look into how to make those functions work and generate no of enemies and places randomization code
 3.finish the rest of the datasheets to add the enemies.
+4.we need to start getting the game to work and get the terrain to work (need doctor nour or mo3id help).
