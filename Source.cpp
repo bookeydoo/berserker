@@ -131,18 +131,20 @@ void loadingscreen() {
 
 }
 void Mainmenu() {
-    while (1) {
+    
     int w = graphics.getWindowWidth();
     int l = graphics.getWindowHeight();
     int mainmenu = graphics.loadImage("images\\eclipse");
     graphics.resizeImage(mainmenu, w, l);
-    graphics.drawImage(mainmenu, l, w, RGB(100, 0, 0));
-    graphics.setDrawingColor(COLORS::WHITE);
-    graphics.setFontSizeAndBoldness(200, 30);
-    graphics.drawText((w / 2), (l / 2), "Berserker alpha version");
-    graphics.setDrawingColor(COLORS::RED);
-    graphics.drawText((w / 3), (l / 3), "press F to start the game");
-    
+    while (1) {
+        graphics.beginDraw();
+        graphics.drawImage(mainmenu, l, w, RGB(100, 0, 0));
+        graphics.setDrawingColor(COLORS::WHITE);
+        graphics.setFontSizeAndBoldness(200, 30);
+        graphics.drawText((w / 3), (l / 3), "Berserker alpha version");
+        graphics.setDrawingColor(COLORS::RED);
+        graphics.drawText((w / 3), (l / 3), "press F to start the game");
+
         char ch = getchar();
         if (ch == 'f' || ch == 'F') {
             loadingscreen();
@@ -150,7 +152,7 @@ void Mainmenu() {
             break;
 
         }
-    }
+    }graphics.endDraw();
 }
 
 
