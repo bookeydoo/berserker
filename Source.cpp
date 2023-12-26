@@ -22,7 +22,7 @@ public:
     int* Hframes; //damage frames
     int speed;
     int w, h;    //the window length and height for resizing images and changing background
-
+    int *idleF;
     Guts() {
         int w = graphics.getWindowWidth();
         int h = graphics.getWindowHeight();
@@ -46,17 +46,18 @@ public:
 
     void checkstate(bool alive) {
         if (alive != true) {
-
+        deathanimation();
         }
 
     }
 
     void Normalstate() {
-        graphics.loadImage("images\\gutsIdle1");
-        graphics.loadImage("images\\gutsIdle2");
-        graphics.loadImage("images\\gutsIdle3");
-        graphics.loadImage("images\\gutsIdle4");
-        graphics.loadImage("images\\gutsIdle5");
+        idleF=new int[5];
+        idleF[0]= graphics.loadImage("images\\gutsIdle1");
+        idleF[1]=graphics.loadImage("images\\gutsIdle2");
+        idleF[2]= graphics.loadImage("images\\gutsIdle3");
+        idleF[3]=graphics.loadImage("images\\gutsIdle4");
+        idleF[4]=graphics.loadImage("images\\gutsIdle5");
     }
 
 
@@ -147,8 +148,8 @@ void Mainmenu() {
 
         char ch = getchar();
         if (ch == 'f' || ch == 'F') {
-            loadingscreen();
-
+            
+            graphics.deleteImage(mainmenu);
             break;
             
         }graphics.endDraw();
@@ -156,12 +157,23 @@ void Mainmenu() {
 }
 
 
-void firstlevel(){
+void firstlevel(Guts g ){
     int w = graphics.getWindowWidth();
     int l = graphics.getWindowHeight();
-    int bg=graphics.loadImage("Generalimages\\evilforest.jpg");
-    int terrain=graphics.loadImage("Generalimages\\")
-
+    int bg=graphics.loadImage("Generalimages\\gothiclevel.jpg");
+    graphics.resizeImage(bg,w,l);
+    int terrainpart=graphics.loadImage("Generalimages\\gothiclevelterrain.png");
+    graphics.resizeImage(terrainpart,w/2,136);
+    int terrainpart2=graphics.loadImage("Generalimages\\gothiclevelterrain2.png");
+    graphics.resizeImage(terrainpart2,w/2,136);
+    
+    while(1){
+        graphics.beginDraw();
+        graphics.drawImage(bg,w,l,COLORS::WHITE);
+        graphics.drawImage(terrainpart,w/2,l,COLORS::WHITE);
+        graphics.drawImage(terrainpart2,w/2,136,COLORS::WHITE);
+      
+    }
 }
 
 int main() {
@@ -171,7 +183,7 @@ int main() {
 
     Guts player;
     player.Normalstate();
-    graphics.loadImage("images\\Pillar Terrain");                          //add the terrain to load it 
+    firstlevel(player);                      //loads the first level which has the terrain,special bg,and some randomly generated enemies 
     while (1) {
         graphics.beginDraw();
         Mainmenu();
