@@ -156,6 +156,13 @@ void Mainmenu() {
 }
 
 
+void firstlevel(){
+    int w = graphics.getWindowWidth();
+    int l = graphics.getWindowHeight();
+    int bg=graphics.loadImage("Generalimages\\evilforest.jpg");
+    int terrain=graphics.loadImage("Generalimages\\")
+
+}
 
 int main() {
     graphics.setup();
