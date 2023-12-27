@@ -22,7 +22,7 @@ public:
     int* Hframes; //damage frames
     int speed;
     int w, h;    //the window length and height for resizing images and changing background
-    int *idleF;
+    int* idleF;
     Guts() {
         int w = graphics.getWindowWidth();
         int h = graphics.getWindowHeight();
@@ -34,7 +34,7 @@ public:
     void deathanimation() {
 
 
-        int death = graphics.loadImage("images\\death");
+        int death = graphics.loadImage("Generalimages\\death");
         graphics.drawImage(death, w - 400, h - 400, RGB(0, 0, 0));
         Sleep(300);
 
@@ -46,59 +46,59 @@ public:
 
     void checkstate(bool alive) {
         if (alive != true) {
-        deathanimation();
+            deathanimation();
         }
 
     }
 
     void Normalstate() {
-        idleF=new int[5];
-        idleF[0]= graphics.loadImage("images\\gutsIdle1");
-        idleF[1]=graphics.loadImage("images\\gutsIdle2");
-        idleF[2]= graphics.loadImage("images\\gutsIdle3");
-        idleF[3]=graphics.loadImage("images\\gutsIdle4");
-        idleF[4]=graphics.loadImage("images\\gutsIdle5");
+        idleF = new int[5];
+        idleF[0] = graphics.loadImage("Generalimages\\gutsIdle1");
+        idleF[1] = graphics.loadImage("Generalimages\\gutsIdle2");
+        idleF[2] = graphics.loadImage("Generalimages\\gutsIdle3");
+        idleF[3] = graphics.loadImage("Generalimages\\gutsIdle4");
+        idleF[4] = graphics.loadImage("Generalimages\\gutsIdle5");
     }
 
 
 
     void basicRunningSprites() {
         mvF = new int[10];
-        mvF[0] = graphics.loadImage("images\\Running1");
-        mvF[1] = graphics.loadImage("images\\Running2");
-        mvF[2] = graphics.loadImage("images\\Running3");
-        mvF[3] = graphics.loadImage("images\\Running4");
-        mvF[4] = graphics.loadImage("images\\Running5");
-        mvF[5] = graphics.loadImage("images\\Running6");
-        mvF[6] = graphics.loadImage("images\\Running7");
-        mvF[7] = graphics.loadImage("images\\Running8");
-        mvF[8] = graphics.loadImage("images\\Running9");
-        mvF[9] = graphics.loadImage("images\\Running10");
+        mvF[0] = graphics.loadImage("Generalimages\\Running1");
+        mvF[1] = graphics.loadImage("Generalimages\\Running2");
+        mvF[2] = graphics.loadImage("Generalimages\\Running3");
+        mvF[3] = graphics.loadImage("Generalimages\\Running4");
+        mvF[4] = graphics.loadImage("Generalimages\\Running5");
+        mvF[5] = graphics.loadImage("Generalimages\\Running6");
+        mvF[6] = graphics.loadImage("Generalimages\\Running7");
+        mvF[7] = graphics.loadImage("Generalimages\\Running8");
+        mvF[8] = graphics.loadImage("Generalimages\\Running9");
+        mvF[9] = graphics.loadImage("Generalimages\\Running10");
     }
     void QAsprites() {
         QAF = new int[4];
-        QAF[0] = graphics.loadImage("images\\QA1");
-        QAF[1] = graphics.loadImage("images\\QA2");
-        QAF[2] = graphics.loadImage("images\\QA3");
-        QAF[3] = graphics.loadImage("images\\QA4");
+        QAF[0] = graphics.loadImage("Generalimages\\QA1");
+        QAF[1] = graphics.loadImage("Generalimages\\QA2");
+        QAF[2] = graphics.loadImage("Generalimages\\QA3");
+        QAF[3] = graphics.loadImage("Generalimages\\QA4");
     }
     void OnHitsprites() {
         Hframes = new int[4];
-        Hframes[0] = graphics.loadImage("images\\hurt1");
-        Hframes[1] = graphics.loadImage("images\\hurt2");
-        Hframes[2] = graphics.loadImage("images\\hurt3");
-        Hframes[3] = graphics.loadImage("images\\hurt4");
+        Hframes[0] = graphics.loadImage("Generalimages\\hurt1");
+        Hframes[1] = graphics.loadImage("Generalimages\\hurt2");
+        Hframes[2] = graphics.loadImage("Generalimages\\hurt3");
+        Hframes[3] = graphics.loadImage("Generalimages\\hurt4");
     }
     void DSsprites() {
         DSF = new int[8];
-        DSF[0] = graphics.loadImage("images\\ds1");
-        DSF[1] = graphics.loadImage("images\\ds2");
-        DSF[2] = graphics.loadImage("images\\ds3");
-        DSF[3] = graphics.loadImage("images\\ds4");
-        DSF[4] = graphics.loadImage("images\\ds5");
-        DSF[5] = graphics.loadImage("images\\ds6");
-        DSF[6] = graphics.loadImage("images\\ds7");
-        DSF[7] = graphics.loadImage("images\\ds8");
+        DSF[0] = graphics.loadImage("Generalimages\\ds1");
+        DSF[1] = graphics.loadImage("Generalimages\\ds2");
+        DSF[2] = graphics.loadImage("Generalimages\\ds3");
+        DSF[3] = graphics.loadImage("Generalimages\\ds4");
+        DSF[4] = graphics.loadImage("Generalimages\\ds5");
+        DSF[5] = graphics.loadImage("Generalimages\\ds6");
+        DSF[6] = graphics.loadImage("Generalimages\\ds7");
+        DSF[7] = graphics.loadImage("Generalimages\\ds8");
 
     }
 
@@ -123,7 +123,7 @@ public:
 void loadingscreen() {
     int w = graphics.getWindowWidth();
     int l = graphics.getWindowHeight();
-    int loadingscreenimg = graphics.loadImage("images\\guts angry");
+    int loadingscreenimg = graphics.loadImage("Generalimages\\guts angry");
     graphics.resizeImage(loadingscreenimg, w / 3, l / 3);
     graphics.drawImage(loadingscreenimg, w - 300, l - 500, RGB(0, 0, 0));
     graphics.setDrawingColor(COLORS::RED);
@@ -132,47 +132,47 @@ void loadingscreen() {
 
 }
 void Mainmenu() {
-    
+
     int w = graphics.getWindowWidth();
     int l = graphics.getWindowHeight();
-    int mainmenu = graphics.loadImage("images\\eclipse.jpg");
+    int mainmenu = graphics.loadImage("Generalimages\\eclipse.jpg");
     graphics.resizeImage(mainmenu, w, l);
     while (1) {
         graphics.beginDraw();
         graphics.drawImage(mainmenu, 0, 0, COLORS::BLACK);
         graphics.setDrawingColor(COLORS::RED);
         graphics.setFontSizeAndBoldness(150, 30);
-        graphics.drawText((w / 2)-500, (l / 2)-500, "Berserker alpha version");
+        graphics.drawText((w / 2) - 500, (l / 2) - 500, "Berserker alpha version");
         graphics.setDrawingColor(COLORS::WHITE);
-        graphics.drawText((w / 2)-700, (l / 2)-700, "press F to start the game");
+        graphics.drawText((w / 2) - 700, (l / 2) - 700, "press F to start the game");
 
         char ch = getchar();
         if (ch == 'f' || ch == 'F') {
-            
+
             graphics.deleteImage(mainmenu);
             break;
-            
+
         }graphics.endDraw();
     }
 }
 
 
-void firstlevel(Guts g ){
+void firstlevel(Guts g) {
     int w = graphics.getWindowWidth();
     int l = graphics.getWindowHeight();
-    int bg=graphics.loadImage("Generalimages\\gothiclevel.jpg");
-    graphics.resizeImage(bg,w,l);
-    int terrainpart=graphics.loadImage("Generalimages\\gothiclevelterrain.png");
-    graphics.resizeImage(terrainpart,w/2,136);
-    int terrainpart2=graphics.loadImage("Generalimages\\gothiclevelterrain2.png");
-    graphics.resizeImage(terrainpart2,w/2,136);
-    
-    while(1){
+    int bg = graphics.loadImage("Generalimages\\gothiclevel.jpg");
+    graphics.resizeImage(bg, w, l);
+    int terrainpart = graphics.loadImage("Generalimages\\gothiclevelterrain.png");
+    graphics.resizeImage(terrainpart, w / 2, 136);
+    int terrainpart2 = graphics.loadImage("Generalimages\\gothiclevelterrain2.png");
+    graphics.resizeImage(terrainpart2, w / 2, 136);
+
+    while (1) {
         graphics.beginDraw();
-        graphics.drawImage(bg,w,l,COLORS::WHITE);
-        graphics.drawImage(terrainpart,w/2,l,COLORS::WHITE);
-        graphics.drawImage(terrainpart2,w/2,136,COLORS::WHITE);
-      
+        graphics.drawImage(bg, w, l, COLORS::WHITE);
+        graphics.drawImage(terrainpart, w / 2, l, COLORS::WHITE);
+        graphics.drawImage(terrainpart2, w / 2, 136, COLORS::WHITE);
+
     }
 }
 
@@ -189,7 +189,7 @@ int main() {
         Mainmenu();
 
 
-        
+
     }
 
 
