@@ -7,12 +7,15 @@
 #define FramesPerSec 30 
 CC212SGL graphics;
 int terrain;
+#define _CRT_SECURE_NO_WARNINGS
+
+int state = 0;
 
 class Guts
 {
 
 public:
-    int *hp;
+    int hp;
     float currentframe = 0;
     int Xp, Yp;      //x and y points for the player
     bool framedirection;// direction the char is looking at
@@ -178,10 +181,11 @@ void firstlevel() {
 
     while (1) {
         graphics.beginDraw();
-        graphics.drawImage(bg, w, l, COLORS::WHITE);
-        graphics.drawImage(terrainpart, w / 2, l, COLORS::WHITE);
-        graphics.drawImage(terrainpart2, w / 2, 136, COLORS::WHITE);
-
+        graphics.drawImage(bg, 0, 0, WHITE);
+        graphics.drawImage(terrainpart, w / 2, l, WHITE);
+        graphics.drawImage(terrainpart2, w / 2, 136, WHITE);
+        Sleep(300);
+        graphics.endDraw();
     }
 }
 
@@ -220,7 +224,7 @@ int main() {
     
     Guts player;
     player.Normalstate();
-    *player.hp = 3;
+    player.hp = 3;
 
     Mainmenu();         //loads the first level which has the terrain,special bg,and some randomly generated enemies 
     while (1) {
