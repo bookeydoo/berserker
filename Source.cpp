@@ -12,10 +12,10 @@ class Guts
 {
 
 public:
-    int hp;
+    int *hp;
     float currentframe = 0;
     int Xp, Yp;      //x and y points for the player
-    bool framedirection;
+    bool framedirection;// direction the char is looking at
     bool alive;
     int* mvF, * DSF;   //mvf stands for movementFrames,dsf stands for down strike frames  
     int* QAF;   //quick attack frames
@@ -31,6 +31,8 @@ public:
     void updatePlayerLocation(int x, int y) {
 
     }
+
+    
     void deathanimation() {
 
 
@@ -45,10 +47,9 @@ public:
     }
 
     void checkstate(bool alive) {
-        if (alive != true) {
+        if (alive != true) 
             deathanimation();
-        }
-
+        
     }
 
     void Normalstate() {
@@ -91,16 +92,48 @@ public:
     }
     void DSsprites() {
         DSF = new int[8];
-        DSF[0] = graphics.loadImage("Generalimages\\ds1");
-        DSF[1] = graphics.loadImage("Generalimages\\ds2");
-        DSF[2] = graphics.loadImage("Generalimages\\ds3");
-        DSF[3] = graphics.loadImage("Generalimages\\ds4");
-        DSF[4] = graphics.loadImage("Generalimages\\ds5");
-        DSF[5] = graphics.loadImage("Generalimages\\ds6");
-        DSF[6] = graphics.loadImage("Generalimages\\ds7");
-        DSF[7] = graphics.loadImage("Generalimages\\ds8");
+        DSF[0] = graphics.loadImage("Generalimages\\DS1");
+        DSF[1] = graphics.loadImage("Generalimages\\DS2");
+        DSF[2] = graphics.loadImage("Generalimages\\DS3");
+        DSF[3] = graphics.loadImage("Generalimages\\DS4");
+        DSF[4] = graphics.loadImage("Generalimages\\DS5");
+        DSF[5] = graphics.loadImage("Generalimages\\DS6");
+        DSF[6] = graphics.loadImage("Generalimages\\DS7");
+        DSF[7] = graphics.loadImage("Generalimages\\DS8");
 
     }
+    void renderRunningF(char* ch) {
+        int i;
+        if (*ch == 'D') {
+            framedirection = 1;
+            while (*ch == 'D') {
+                for (i = 0;i <= 10;i++) {
+                    //this place is reserved for the x coordinate changes every time the character moves
+                    graphics.drawImage(mvF[i], 222, 130, COLORS::BLACK);
+                    Sleep(50);
+                }
+                i = 0;
+            }
+        if (*ch == 'A') {
+            framedirection = 0;
+                while (*ch == 'A') {
+                    for ( i = 0;i <= 10;i++) {
+                        //place reserved for x coordinate change but in negative
+                      //this is a loop for the images that are reversed  graphics.drawImage();
+                        Sleep(50);
+                    }
+                }
+            }
+        }
+    }
+    void renderQA() {
+        for (int j = 0;j <= 4;j++) {
+            graphics.drawImage(QAF[j],222,130,COLORS::BLACK);
+            Sleep(50);
+        }
+
+    }
+
 
 };
 
@@ -120,7 +153,7 @@ public:
 
 
 
-void loadingscreen() {
+/*void loadingscreen() {
     int w = graphics.getWindowWidth();
     int l = graphics.getWindowHeight();
     int loadingscreenimg = graphics.loadImage("Generalimages\\guts angry");
@@ -130,34 +163,9 @@ void loadingscreen() {
     graphics.drawText(w / 3, l - 500, "loading");
 
 
-}
-void Mainmenu() {
+}*/
 
-    int w = graphics.getWindowWidth();
-    int l = graphics.getWindowHeight();
-    int mainmenu = graphics.loadImage("Generalimages\\eclipse.jpg");
-    graphics.resizeImage(mainmenu, w, l);
-    while (1) {
-        graphics.beginDraw();
-        graphics.drawImage(mainmenu, 0, 0, COLORS::BLACK);
-        graphics.setDrawingColor(COLORS::RED);
-        graphics.setFontSizeAndBoldness(150, 30);
-        graphics.drawText((w / 2) - 500, (l / 2) - 500, "Berserker alpha version");
-        graphics.setDrawingColor(COLORS::WHITE);
-        graphics.drawText((w / 2) - 700, (l / 2) - 700, "press F to start the game");
-
-        char ch = getchar();
-        if (ch == 'f' || ch == 'F') {
-
-            graphics.deleteImage(mainmenu);
-            break;
-
-        }graphics.endDraw();
-    }
-}
-
-
-void firstlevel(Guts g) {
+void firstlevel() {
     int w = graphics.getWindowWidth();
     int l = graphics.getWindowHeight();
     int bg = graphics.loadImage("Generalimages\\gothiclevel.jpg");
@@ -166,6 +174,7 @@ void firstlevel(Guts g) {
     graphics.resizeImage(terrainpart, w / 2, 136);
     int terrainpart2 = graphics.loadImage("Generalimages\\gothiclevelterrain2.png");
     graphics.resizeImage(terrainpart2, w / 2, 136);
+    
 
     while (1) {
         graphics.beginDraw();
@@ -176,19 +185,55 @@ void firstlevel(Guts g) {
     }
 }
 
+void Mainmenu() {
+
+    int w = graphics.getWindowWidth();
+    int l = graphics.getWindowHeight();
+    int mainmenu = graphics.loadImage("Generalimages\\eclipse.jpg");
+    graphics.resizeImage(mainmenu, w, l);
+    while (1) {
+        graphics.beginDraw();
+        graphics.drawImage(mainmenu, 0, 0, COLORS::WHITE);
+        graphics.setDrawingColor(COLORS::RED);
+        graphics.setFontSizeAndBoldness(150, 30);
+        graphics.drawText((w / 2) - 500, (l / 2) - 500, "Berserker alpha version");
+        graphics.setDrawingColor(COLORS::WHITE);
+        graphics.drawText((w / 2) - 700, (l / 2) - 700, "press F to start the game");
+
+
+
+        if (_kbhit())
+        {
+            char ch = _getch();
+            if (ch == 'F' || ch == 'f');
+            break;
+        }
+        graphics.endDraw();
+
+    }
+}
+
 int main() {
     graphics.setup();
     graphics.setFullScreenMode();
     graphics.hideCursor();
-
+    
     Guts player;
     player.Normalstate();
-    firstlevel(player);                      //loads the first level which has the terrain,special bg,and some randomly generated enemies 
+    *player.hp = 3;
+
+    Mainmenu();         //loads the first level which has the terrain,special bg,and some randomly generated enemies 
     while (1) {
         graphics.beginDraw();
-        Mainmenu();
+        firstlevel();
+        char ch;
 
-
+        if (GetAsyncKeyState('A'))
+            ch = 'A';
+        if (GetAsyncKeyState('D'))
+            ch = 'D';
+        if (GetAsyncKeyState('W'))
+            ch = 'W';
 
     }
 
