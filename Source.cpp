@@ -140,19 +140,204 @@ public:
 
 };
 
-class enemies {
+//class enemies {
+//public:
+  //  bool alive;
+    //bool framedirection;
+    //int Xp, Yp;
+    //int speed;
+    //int hp;
+
+    //void checkstate() {
+
+    //}
+
+//};
+
+
+class monk {
 public:
     bool alive;
     bool framedirection;
-    int Xp, Yp;
+    int Xe, Ye;
     int speed;
     int hp;
+    int* monkwmF;// monk walk 
+    int* monkjmF;// jump
+    int* monkkmF;// kick
+    int* monkhmF;// hurt
+    int* monkfkmF;// flyingkick
+    int* monkpmF;// punch
+    void monkwmF() {
+        monkwmF = new int[6];
+        monkwmF[0] = graphics.loadImage("enemyImages\\monkwalk1.png");
+        monkwmF[1] = graphics.loadImage("enemyImages\\monkwalk2.png");
+        monkwmF[2] = graphics.loadImage("enemyImages\\monkwalk3.png");
+        monkwmF[3] = graphics.loadImage("enemyImages\\monkwalk4.png");
+        monkwmF[4] = graphics.loadImage("enemyImages\\monkwalk5.png");
+        monkwmF[5] = graphics.loadImage("enemyImages\\monkwalk6.png");
+    }
 
-    void checkstate() {
+    void monkjmF() {
+        monkjmF = new int[2];
+        monkjmF[0] = graphics.loadImage("enemyImages\\/jump1.png");
+        monkjmF[1] = graphics.loadImage("enemyImages\\/jump2.png");
+
+    }
+
+    void monkkmF() {
+        monkkmF = new int[6];
+        monkkmF[0] = graphics.loadImage("enemyImages\\monkkick1.png");
+        monkkmF[1] = graphics.loadImage("enemyImages\\kick2.png");
+        monkkmF[2] = graphics.loadImage("enemyImages\\kick3.png");
+        monkkmF[3] = graphics.loadImage("enemyImages\\kick4.png");
+        monkkmF[4] = graphics.loadImage("enemyImages\\kick5.png");
+
+    }
+
+
+    void monkhmF() {
+        monkhmF = new int[2];
+        monkhmF[0] = graphics.loadImage("enemyImages\\monkhurt1.png");
+        monkhmF[1] = graphics.loadImage("enemyImages\\monkhurt2.png");
+       
+
+    }
+    void monkfkmF() {
+        monkfkmF = new int[2];
+        monkfkmF[0] = graphics.loadImage("enemyImages\\monkflying-kick1.png");
+        monkfkmF[1] = graphics.loadImage("enemyImages\\monkflying-kick2.png");
+
+    }
+
+    void monkpmF() {
+         monkpmF= new int[6];
+         monkpmF[0] = graphics.loadImage("enemyImages\\monkpunch1.png");
+         monkpmF[1] = graphics.loadImage("enemyImages\\monkpunch2.png");
+         monkpmF[2] = graphics.loadImage("enemyImages\\monkpunch3.png");
+         monkpmF[3] = graphics.loadImage("enemyImages\\monkpunch4.png");
+         monkpmF[4] = graphics.loadImage("enemyImages\\monkpunch5.png");
+         monkpmF[5] = graphics.loadImage("enemyImages\\monkpunch6.png");
+    }
+
+
+};
+
+class wizard {
+public:
+    bool alive;
+    bool framedirection;
+    int Xe, Ye;
+    int speed;
+    int hp;
+    int* WizatFe;// attack 
+
+    void wizatck() {
+        WizatFe = new int[11];
+        WizatFe[0] = graphics.loadImage("enemyImages\\wizard-idle-1.png");
+        WizatFe[1] = graphics.loadImage("enemyImages\\wizardfire1.png");
+        WizatFe[2] = graphics.loadImage("enemyImages\\wizardfire2.png");
+        WizatFe[3] = graphics.loadImage("enemyImages\\wizardfire3.png");
+        WizatFe[4] = graphics.loadImage("enemyImages\\wizardfire4.png");
+        WizatFe[5] = graphics.loadImage("enemyImages\\wizardfire5.png");
+        WizatFe[6] = graphics.loadImage("enemyImages\\wizardfire6.png");
+        WizatFe[7] = graphics.loadImage("enemyImages\\wizardfire7.png");
+        WizatFe[8] = graphics.loadImage("enemyImages\\wizardfire8.png");
+        WizatFe[9] = graphics.loadImage("enemyImages\\wizardfire9.png");
+        WizatFe[10] = graphics.loadImage("enemyImages\\wizardfire10.png");
+    }
+
+};
+
+class wolf {
+public:
+    bool alive;
+    bool framedirection;
+    int Xe, Ye;
+    int speed;
+    int hp;
+    int* WmvFe;// movement frames for enemies
+    int* WatFe;// attack 
+    void wolfmove() {
+
+        WmvFe = new int[6];
+        WmvFe[0] = graphics.loadImage("enemyImages\\wolfidle1.png");
+        WmvFe[1] = graphics.loadImage("enemyImages\\wolfrun1.png");
+        WmvFe[2] = graphics.loadImage("enemyImages\\wolfrun2.png");
+        WmvFe[3] = graphics.loadImage("enemyImages\\wolfrun3.png");
+        WmvFe[4] = graphics.loadImage("enemyImages\\wolfrun4.png");
+        WmvFe[5] = graphics.loadImage("enemyImages\\wolfrun5.png");
+        WmvFe[6] = graphics.loadImage("enemyImages\\wolfrun6.png");
+
+
+
+    }
+    void wolfatck() {
+        WatFe = new int[3];
+        WatFe[0] = graphics.loadImage("enemyImages\\wolfattack1.png");
+        WatFe[1] = graphics.loadImage("enemyImages\\wolfattack2.png");
+        WatFe[2] = graphics.loadImage("enemyImages\\wolfattack3.png");
+    
+
 
     }
 
 };
+
+
+
+class burn {
+public:
+    bool alive;
+    bool framedirection;
+    int Xe, Ye;
+    int speed;
+    int hp;
+    int *mvFe; // movement frames for enemies
+    void BurnWalk() {
+
+            mvFe = new int[9];
+            mvFe[0] = graphics.loadImage("enemyImages\\burning-ghoul-1.png");
+            mvFe[1] = graphics.loadImage("enemyImages\\burning-ghoul-2.png");
+            mvFe[2] = graphics.loadImage("enemyImages\\burning-ghoul-3.png");
+            mvFe[3] = graphics.loadImage("enemyImages\\burning-ghoul-4.png");
+            mvFe[4] = graphics.loadImage("enemyImages\\burning-ghoul-5.png");
+            mvFe[5] = graphics.loadImage("enemyImages\\burning-ghoul-6.png");
+            mvFe[6] = graphics.loadImage("enemyImages\\burning-ghoul-7.png");
+            mvFe[7] = graphics.loadImage("enemyImages\\burning-ghoul-8.png");
+            mvFe[8] = graphics.loadImage("enemyImages\\burning-ghoul-9.png");
+         
+
+    }
+
+
+};
+
+
+class Zodd {
+public:
+    bool alive;
+    bool framedirection;
+    int Xe, Ye;
+    int speed;
+    int hp;
+    int *zoddmvFe; // movement frames for enemies
+    int *zoddatFe; // Attack frames for enemies
+    void Zoddmove() {
+
+        zoddmvFe = new int[4];
+        zoddmvFe[0] = graphics.loadImage("enemyImages\\zoddlanding.png");
+        zoddmvFe[1] = graphics.loadImage("enemyImages\\zoddintro1.png");
+        zoddmvFe[2] = graphics.loadImage("enemyImages\\zoddintro2.png");
+        zoddmvFe[3] = graphics.loadImage("enemyImages\\zodintro3.png");
+    
+    }
+    void ZoddAtck() {
+        zoddatFe = new int[1];
+        zoddatFe[0] = graphics.loadImage("enemyImages\\zoddattack.png");
+    }
+};
+
 
 
 
