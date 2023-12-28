@@ -168,7 +168,7 @@ public:
     int* monkhmF;// hurt
     int* monkfkmF;// flyingkick
     int* monkpmF;// punch
-    void monkwmF() {
+    void monkwalk() {
         monkwmF = new int[6];
         monkwmF[0] = graphics.loadImage("enemyImages\\monkwalk1.png");
         monkwmF[1] = graphics.loadImage("enemyImages\\monkwalk2.png");
@@ -178,14 +178,14 @@ public:
         monkwmF[5] = graphics.loadImage("enemyImages\\monkwalk6.png");
     }
 
-    void monkjmF() {
+    void monkjump() {
         monkjmF = new int[2];
-        monkjmF[0] = graphics.loadImage("enemyImages\\/jump1.png");
-        monkjmF[1] = graphics.loadImage("enemyImages\\/jump2.png");
+        monkjmF[0] = graphics.loadImage("enemyImages\\jump1.png");
+        monkjmF[1] = graphics.loadImage("enemyImages\\jump2.png");
 
     }
 
-    void monkkmF() {
+    void monkkick() {
         monkkmF = new int[6];
         monkkmF[0] = graphics.loadImage("enemyImages\\monkkick1.png");
         monkkmF[1] = graphics.loadImage("enemyImages\\kick2.png");
@@ -196,21 +196,21 @@ public:
     }
 
 
-    void monkhmF() {
+    void monkhurt() {
         monkhmF = new int[2];
         monkhmF[0] = graphics.loadImage("enemyImages\\monkhurt1.png");
         monkhmF[1] = graphics.loadImage("enemyImages\\monkhurt2.png");
        
 
     }
-    void monkfkmF() {
+    void monkflykick() {
         monkfkmF = new int[2];
         monkfkmF[0] = graphics.loadImage("enemyImages\\monkflying-kick1.png");
         monkfkmF[1] = graphics.loadImage("enemyImages\\monkflying-kick2.png");
 
     }
 
-    void monkpmF() {
+    void monkpunch() {
          monkpmF= new int[6];
          monkpmF[0] = graphics.loadImage("enemyImages\\monkpunch1.png");
          monkpmF[1] = graphics.loadImage("enemyImages\\monkpunch2.png");
