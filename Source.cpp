@@ -10,6 +10,8 @@ int terrain;
 #define _CRT_SECURE_NO_WARNINGS
 
 int state = 0;
+int w = graphics.getWindowWidth();
+int h = graphics.getWindowHeight();
 
 class Guts
 {
@@ -20,12 +22,13 @@ public:
     int Xp, Yp;      //x and y points for the player
     bool framedirection;// direction the char is looking at
     bool alive;
-    int* mvF, * DSF;   //mvf stands for movementFrames,dsf stands for down strike frames  
-    int* QAF;   //quick attack frames
-    int* Hframes; //damage frames
+    int* mvF, * DSF , *mvF_R , *DSF_R;   //mvf stands for movementFrames,dsf stands for down strike frames  
+    int* QAF, QAF_R;   //quick attack frames
+    int* Hframes, *Hframes_R; //damage frames
     int speed;
     int w, h;    //the window length and height for resizing images and changing background
-    int* idleF;
+    int* idleF ;
+    int* idleF_R;
     Guts() {
         int w = graphics.getWindowWidth();
         int h = graphics.getWindowHeight();
@@ -35,7 +38,7 @@ public:
 
     }
 
-    
+
     void deathanimation() {
 
 
@@ -50,9 +53,9 @@ public:
     }
 
     void checkstate(bool alive) {
-        if (alive != true) 
+        if (alive != true)
             deathanimation();
-        
+
     }
 
     void Normalstate() {
@@ -105,24 +108,69 @@ public:
         DSF[7] = graphics.loadImage("Generalimages\\DS8");
 
     }
+
+    void basicRunningSpritesR() {       //Reversed
+        mvF_R = new int[10];
+        mvF_R[0] = graphics.loadImage("Generalimages\\Running1R");
+        mvF_R[1] = graphics.loadImage("Generalimages\\Running2R");
+        mvF_R[2] = graphics.loadImage("Generalimages\\Running3R");
+        mvF_R[3] = graphics.loadImage("Generalimages\\Running4R");
+        mvF_R[4] = graphics.loadImage("Generalimages\\Running5R");
+        mvF_R[5] = graphics.loadImage("Generalimages\\Running6R");
+        mvF_R[6] = graphics.loadImage("Generalimages\\Running7R");
+        mvF_R[7] = graphics.loadImage("Generalimages\\Running8R");
+        mvF_R[8] = graphics.loadImage("Generalimages\\Running9R");
+        mvF_R[9] = graphics.loadImage("Generalimages\\Running10R");
+    }
+
+    void DSspritesR() {
+        DSF_R = new int[8];
+        DSF_R[0] = graphics.loadImage("Generalimages\\DS1R");
+        DSF_R[1] = graphics.loadImage("Generalimages\\DS2R");
+        DSF_R[2] = graphics.loadImage("Generalimages\\DS3R");
+        DSF_R[3] = graphics.loadImage("Generalimages\\DS4R");
+        DSF_R[4] = graphics.loadImage("Generalimages\\DS5R");
+        DSF_R[5] = graphics.loadImage("Generalimages\\DS6R");
+        DSF_R[6] = graphics.loadImage("Generalimages\\DS7R");
+        DSF_R[7] = graphics.loadImage("Generalimages\\DS8R");
+
+    }
+
+    void OnHitspritesR() {
+        Hframes_R = new int[4];
+        Hframes_R[0] = graphics.loadImage("Generalimages\\hurt1R");
+        Hframes_R[1] = graphics.loadImage("Generalimages\\hurt2R");
+        Hframes_R[2] = graphics.loadImage("Generalimages\\hurt3R");
+        Hframes_R[3] = graphics.loadImage("Generalimages\\hurt4R");
+    }
+
+    void idleFR() {
+        idleF_R = new int[5];
+        idleF_R[0] = graphics.loadImage("Generalimages\\gutsIdle1R");
+        idleF_R[1] = graphics.loadImage("Generalimages\\gutsIdle2R");
+        idleF_R[2] = graphics.loadImage("Generalimages\\gutsIdle3R");
+        idleF_R[3] = graphics.loadImage("Generalimages\\gutsIdle4R");
+        idleF_R[4] = graphics.loadImage("Generalimages\\gutsIdle5R");
+    }
+
     void renderRunningF(char* ch) {
         int i;
         if (*ch == 'D') {
             framedirection = 1;
             while (*ch == 'D') {
-                for (i = 0;i <= 10;i++) {
+                for (i = 0;i < 10;i++) {
                     //this place is reserved for the x coordinate changes every time the character moves
-                    graphics.drawImage(mvF[i], 222, 130, COLORS::BLACK);
+                    graphics.drawImage(mvF[i], 5, 130, 0);
                     Sleep(50);
                 }
                 i = 0;
             }
-        if (*ch == 'A') {
-            framedirection = 0;
+            if (*ch == 'A') {
+                framedirection = 0;
                 while (*ch == 'A') {
-                    for ( i = 0;i <= 10;i++) {
+                    for (i = 0;i <= 10;i++) {
                         //place reserved for x coordinate change but in negative
-                      //this is a loop for the images that are reversed  graphics.drawImage();
+                        graphics.drawImage(mvF_R[i], 5, 130, 0);
                         Sleep(50);
                     }
                 }
@@ -130,9 +178,18 @@ public:
         }
     }
     void renderQA() {
-        for (int j = 0;j <= 4;j++) {
-            graphics.drawImage(QAF[j],222,130,COLORS::BLACK);
-            Sleep(50);
+        if (framedirection == 0) {
+            for (int j = 0;j <= 4;j++) {
+                graphics.drawImage(QAF[j], w - 222, h-130, 0);
+                Sleep(50);
+            }
+        }
+        else
+        {
+            for (int j = 0;j <= 4;j++) {
+                graphics.drawImage(QAF_R,w-222,h-130,0);
+                Sleep(50);
+            }
         }
 
     }
@@ -168,7 +225,7 @@ public:
     int* monkhmF;// hurt
     int* monkfkmF;// flyingkick
     int* monkpmF;// punch
-    void monkwalk() {
+    void monkmF() {
         monkwmF = new int[6];
         monkwmF[0] = graphics.loadImage("enemyImages\\monkwalk1.png");
         monkwmF[1] = graphics.loadImage("enemyImages\\monkwalk2.png");
@@ -178,14 +235,14 @@ public:
         monkwmF[5] = graphics.loadImage("enemyImages\\monkwalk6.png");
     }
 
-    void monkjump() {
+    void monkpjmF() {
         monkjmF = new int[2];
         monkjmF[0] = graphics.loadImage("enemyImages\\jump1.png");
         monkjmF[1] = graphics.loadImage("enemyImages\\jump2.png");
 
     }
 
-    void monkkick() {
+    void monmF() {
         monkkmF = new int[6];
         monkkmF[0] = graphics.loadImage("enemyImages\\monkkick1.png");
         monkkmF[1] = graphics.loadImage("enemyImages\\kick2.png");
@@ -196,28 +253,28 @@ public:
     }
 
 
-    void monkhurt() {
+    void monktmF() {
         monkhmF = new int[2];
         monkhmF[0] = graphics.loadImage("enemyImages\\monkhurt1.png");
         monkhmF[1] = graphics.loadImage("enemyImages\\monkhurt2.png");
-       
+
 
     }
-    void monkflykick() {
+    void monkzkmF() {
         monkfkmF = new int[2];
         monkfkmF[0] = graphics.loadImage("enemyImages\\monkflying-kick1.png");
         monkfkmF[1] = graphics.loadImage("enemyImages\\monkflying-kick2.png");
 
     }
 
-    void monkpunch() {
-         monkpmF= new int[6];
-         monkpmF[0] = graphics.loadImage("enemyImages\\monkpunch1.png");
-         monkpmF[1] = graphics.loadImage("enemyImages\\monkpunch2.png");
-         monkpmF[2] = graphics.loadImage("enemyImages\\monkpunch3.png");
-         monkpmF[3] = graphics.loadImage("enemyImages\\monkpunch4.png");
-         monkpmF[4] = graphics.loadImage("enemyImages\\monkpunch5.png");
-         monkpmF[5] = graphics.loadImage("enemyImages\\monkpunch6.png");
+    void monkfmF() {
+        monkpmF = new int[6];
+        monkpmF[0] = graphics.loadImage("enemyImages\\monkpunch1.png");
+        monkpmF[1] = graphics.loadImage("enemyImages\\monkpunch2.png");
+        monkpmF[2] = graphics.loadImage("enemyImages\\monkpunch3.png");
+        monkpmF[3] = graphics.loadImage("enemyImages\\monkpunch4.png");
+        monkpmF[4] = graphics.loadImage("enemyImages\\monkpunch5.png");
+        monkpmF[5] = graphics.loadImage("enemyImages\\monkpunch6.png");
     }
 
 
@@ -277,7 +334,7 @@ public:
         WatFe[0] = graphics.loadImage("enemyImages\\wolfattack1.png");
         WatFe[1] = graphics.loadImage("enemyImages\\wolfattack2.png");
         WatFe[2] = graphics.loadImage("enemyImages\\wolfattack3.png");
-    
+
 
 
     }
@@ -293,20 +350,20 @@ public:
     int Xe, Ye;
     int speed;
     int hp;
-    int *mvFe; // movement frames for enemies
+    int* mvFe; // movement frames for enemies
     void BurnWalk() {
 
-            mvFe = new int[9];
-            mvFe[0] = graphics.loadImage("enemyImages\\burning-ghoul-1.png");
-            mvFe[1] = graphics.loadImage("enemyImages\\burning-ghoul-2.png");
-            mvFe[2] = graphics.loadImage("enemyImages\\burning-ghoul-3.png");
-            mvFe[3] = graphics.loadImage("enemyImages\\burning-ghoul-4.png");
-            mvFe[4] = graphics.loadImage("enemyImages\\burning-ghoul-5.png");
-            mvFe[5] = graphics.loadImage("enemyImages\\burning-ghoul-6.png");
-            mvFe[6] = graphics.loadImage("enemyImages\\burning-ghoul-7.png");
-            mvFe[7] = graphics.loadImage("enemyImages\\burning-ghoul-8.png");
-            mvFe[8] = graphics.loadImage("enemyImages\\burning-ghoul-9.png");
-         
+        mvFe = new int[9];
+        mvFe[0] = graphics.loadImage("enemyImages\\burning-ghoul-1.png");
+        mvFe[1] = graphics.loadImage("enemyImages\\burning-ghoul-2.png");
+        mvFe[2] = graphics.loadImage("enemyImages\\burning-ghoul-3.png");
+        mvFe[3] = graphics.loadImage("enemyImages\\burning-ghoul-4.png");
+        mvFe[4] = graphics.loadImage("enemyImages\\burning-ghoul-5.png");
+        mvFe[5] = graphics.loadImage("enemyImages\\burning-ghoul-6.png");
+        mvFe[6] = graphics.loadImage("enemyImages\\burning-ghoul-7.png");
+        mvFe[7] = graphics.loadImage("enemyImages\\burning-ghoul-8.png");
+        mvFe[8] = graphics.loadImage("enemyImages\\burning-ghoul-9.png");
+
 
     }
 
@@ -321,8 +378,8 @@ public:
     int Xe, Ye;
     int speed;
     int hp;
-    int *zoddmvFe; // movement frames for enemies
-    int *zoddatFe; // Attack frames for enemies
+    int* zoddmvFe; // movement frames for enemies
+    int* zoddatFe; // Attack frames for enemies
     void Zoddmove() {
 
         zoddmvFe = new int[4];
@@ -330,7 +387,7 @@ public:
         zoddmvFe[1] = graphics.loadImage("enemyImages\\zoddintro1.png");
         zoddmvFe[2] = graphics.loadImage("enemyImages\\zoddintro2.png");
         zoddmvFe[3] = graphics.loadImage("enemyImages\\zodintro3.png");
-    
+
     }
     void ZoddAtck() {
         zoddatFe = new int[1];
@@ -356,19 +413,19 @@ public:
 void firstlevel() {
     int w = graphics.getWindowWidth();
     int l = graphics.getWindowHeight();
-    int bg = graphics.loadImage("Generalimages\\gothiclevel.jpg");
-    graphics.resizeImage(bg, w, l);
+    int bg = graphics.loadImage("Generalimages\\gothiclevelbg.png");
+    graphics.resizeImage(bg, 1700, 700);
     int terrainpart = graphics.loadImage("Generalimages\\gothiclevelterrain.png");
-    graphics.resizeImage(terrainpart, w / 2, 136);
+    graphics.resizeImage(terrainpart, w/2 , 200);
     int terrainpart2 = graphics.loadImage("Generalimages\\gothiclevelterrain2.png");
-    graphics.resizeImage(terrainpart2, w / 2, 136);
-    
+    graphics.resizeImage(terrainpart2, w / 2, 200);
+
 
     while (1) {
         graphics.beginDraw();
-        graphics.drawImage(bg, 0, 0, WHITE);
-        graphics.drawImage(terrainpart, w / 2, l, WHITE);
-        graphics.drawImage(terrainpart2, w / 2, 136, WHITE);
+        graphics.drawImage(bg, 0, 0, graphics.generateFromRGB(0,0,0));
+       graphics.drawImage(terrainpart, w/2 , l-200, graphics.generateFromRGB(0, 0, 0));
+        graphics.drawImage(terrainpart2, 0 , l-200, graphics.generateFromRGB(0, 0, 0));
         Sleep(300);
         graphics.endDraw();
     }
@@ -406,7 +463,7 @@ int main() {
     graphics.setup();
     graphics.setFullScreenMode();
     graphics.hideCursor();
-    
+
     Guts player;
     player.Normalstate();
     player.hp = 3;
