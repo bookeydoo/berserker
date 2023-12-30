@@ -11,41 +11,77 @@ int terrain;
 #define _CRT_SECURE_NO_WARNINGS
 
 int state = 0;
-int w = graphics.getWindowWidth();
-int h = graphics.getWindowHeight();
+
 
 class Guts
 {
 
 public:
     int hp;
+    bool winflag;
     float currentframe = 0;
     int Xp, Yp;      //x and y points for the player
     bool framedirection;// direction the char is looking at
     bool alive;
     int* mvF, * DSF , *mvF_R , *DSF_R;   //mvf stands for movementFrames,dsf stands for down strike frames  
-    int* QAF, QAF_R;   //quick attack frames
+    int* QAF;
+    int* QAF_R;   //quick attack frames
     int* Hframes, *Hframes_R; //damage frames
     int w, h;    //the window length and height for resizing images and changing background
+    int dodge;
+    int dodgeR;
     int* idleF ;
     int* idleF_R;
     Guts() {
         w = graphics.getWindowWidth();
         h = graphics.getWindowHeight();
         mvF = DSF = mvF_R = DSF_R = QAF = Hframes = Hframes_R = idleF = idleF_R  =nullptr;
+        QAF_R = DSF_R = nullptr;
+
         Xp=Yp = 0;
-        framedirection = 1; //1 is right
+        mvF_R = nullptr;
+
         hp = 3;
         alive = 1; 
+    }
+    Guts(int xp, int yp){
+        framedirection = 1; //1 is right
+        bool winflag = 0;// game not over
+        Xp = xp;
+        Yp = yp;
     }
     ~Guts() {
         delete[] mvF , DSF , mvF_R , DSF_R , QAF , Hframes, Hframes_R , idleF , idleF_R;
     }
+    //loading functions except for goodending and mainmenu
+    void goodending() {
+        if (winflag) {
+            int happyending=graphics.loadImage("Generalimages\\happyending.jpg");
+            graphics.resizeImage(happyending, w, h);
+            while (1) {
+                graphics.beginDraw();
+                graphics.drawImage(happyending, 0, 0, 0);
+                graphics.setDrawingColor(COLORS::CYAN);
+                graphics.setFontSizeAndBoldness(150, 30);
+                graphics.drawText((w / 2) - 500, (h / 2) - 500, "You win ,happy ending!");
+                graphics.setDrawingColor(COLORS::WHITE);
+                graphics.drawText((w / 2) - 700, (h / 2) - 700, "press F to close the game");
 
-    void updatePlayerLocation(int x, int y) {
 
+
+                if (_kbhit())
+                {
+                    char ch = _getch();
+                    if (ch == 'F' || ch == 'f');
+                    break;
+                }
+                graphics.endDraw();
+
+            }
+        }
+
+    
     }
-
 
     void deathanimation() {
 
@@ -57,7 +93,7 @@ public:
         graphics.resizeImage(death, w, h);
         graphics.setDrawingColor(COLORS::RED);
         graphics.setFontSizeAndBoldness(150, 25);
-        graphics.drawText(Xp, Yp + 200, "You have died");
+        graphics.drawText(Xp+600, Yp - 300, "You have died");
     }
 
     void checkstate(bool alive) {
@@ -65,7 +101,7 @@ public:
             deathanimation();
 
     }
-
+    
     void Normalstate() {
         idleF = new int[5];
         idleF[0] = graphics.loadImage("Generalimages\\gutsIdle1.png");
@@ -77,6 +113,10 @@ public:
 
 
 
+    void loadDodgeSprites() {
+        dodge = graphics.loadImage("Generalimages\\dodge.png");
+        dodgeR = graphics.loadImage("Generalimages\\dodgeR.png");
+    }
     void loadbasicRunningSprites() {
         mvF = new int[10];
         mvF[0] = graphics.loadImage("Generalimages\\Running1.png");
@@ -161,6 +201,7 @@ public:
         idleF_R[4] = graphics.loadImage("Generalimages\\gutsIdle5R");
     }
 
+    //rendering functions start here 
     void RenderNormalstate() {
         while (1) {
             graphics.beginDraw();
@@ -202,6 +243,15 @@ public:
         }
         graphics.endDraw();
     }
+    void Dodgingfunc(char* ch) {
+        if (*ch == 'Q' || framedirection == 1) {
+            graphics.drawImage(dodge, Xp - 200, Yp, 0);
+        }
+        else {
+            graphics.drawImage(dodgeR, Xp + 200, Yp, 0);
+        }
+    }
+
     void renderQA() {
         if (framedirection == 0) {
             for (int j = 0;j <= 4;j++) {
@@ -212,7 +262,7 @@ public:
         else
         {
             for (int j = 0;j <= 4;j++) {
-                graphics.drawImage(QAF_R, h - 130,w-222,0);
+                graphics.drawImage(QAF_R[j], h - 130, w - 222, 0);
                 Sleep(50);
             }
         }
@@ -445,14 +495,15 @@ void firstlevel() {
     int terrainpart2 = graphics.loadImage("Generalimages\\gothiclevelterrain2.png");
     graphics.resizeImage(terrainpart2, w / 2, 200);
 
-    int f23=graphics.loadImage("Generalimages\\gutsIdle1.png");
+    int startingpos=graphics.loadImage("Generalimages\\menacing.png");
     
     while (1) {
         graphics.beginDraw();
         graphics.drawImage(bg, 0, 0, graphics.generateFromRGB(0,0,0));
        graphics.drawImage(terrainpart, w/2 , l-200, graphics.generateFromRGB(0, 0, 0));
         graphics.drawImage(terrainpart2, 0 , l-200, graphics.generateFromRGB(0, 0, 0));
-        
+        graphics.drawImage(startingpos, 0, l - 480,COLORS::WHITE);
+
         Sleep(300);
         graphics.endDraw();
     }
@@ -461,17 +512,17 @@ void firstlevel() {
 void Mainmenu() {
 
     int w = graphics.getWindowWidth();
-    int l = graphics.getWindowHeight();
+    int h = graphics.getWindowHeight();
     int mainmenu = graphics.loadImage("Generalimages\\eclipse.jpg");
-    graphics.resizeImage(mainmenu, w, l);
+    graphics.resizeImage(mainmenu, w, h);
     while (1) {
         graphics.beginDraw();
         graphics.drawImage(mainmenu, 0, 0, COLORS::WHITE);
         graphics.setDrawingColor(COLORS::RED);
         graphics.setFontSizeAndBoldness(150, 30);
-        graphics.drawText((w / 2) - 500, (l / 2) - 500, "Berserker alpha version");
+        graphics.drawText((w / 2) - 500, (h / 2) - 500, "Berserker alpha version");
         graphics.setDrawingColor(COLORS::WHITE);
-        graphics.drawText((w / 2) - 700, (l / 2) - 700, "press F to start the game");
+        graphics.drawText((w / 2) - 700, (h / 2) - 700, "press F to start the game");
 
 
 
