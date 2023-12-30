@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<conio.h>
 #include "CC212SGL.h"
+#include<stdlib.h>
 #pragma comment(lib,"CC212SGL.lib")
 #include<time.h>
 #include<Windows.h>
@@ -25,13 +26,20 @@ public:
     int* mvF, * DSF , *mvF_R , *DSF_R;   //mvf stands for movementFrames,dsf stands for down strike frames  
     int* QAF, QAF_R;   //quick attack frames
     int* Hframes, *Hframes_R; //damage frames
-    int speed;
     int w, h;    //the window length and height for resizing images and changing background
     int* idleF ;
     int* idleF_R;
     Guts() {
-        int w = graphics.getWindowWidth();
-        int h = graphics.getWindowHeight();
+        w = graphics.getWindowWidth();
+        h = graphics.getWindowHeight();
+        mvF = DSF = mvF_R = DSF_R = QAF = Hframes = Hframes_R = idleF = idleF_R  =nullptr;
+        Xp=Yp = 0;
+        framedirection = 1; //1 is right
+        hp = 3;
+        alive = 1; 
+    }
+    ~Guts() {
+        delete[] mvF , DSF , mvF_R , DSF_R , QAF , Hframes, Hframes_R , idleF , idleF_R;
     }
 
     void updatePlayerLocation(int x, int y) {
@@ -42,7 +50,7 @@ public:
     void deathanimation() {
 
 
-        int death = graphics.loadImage("Generalimages\\death");
+        int death = graphics.loadImage("Generalimages\\death.png");
         graphics.drawImage(death, w - 400, h - 400, RGB(0, 0, 0));
         Sleep(300);
 
@@ -60,43 +68,43 @@ public:
 
     void Normalstate() {
         idleF = new int[5];
-        idleF[0] = graphics.loadImage("Generalimages\\gutsIdle1");
-        idleF[1] = graphics.loadImage("Generalimages\\gutsIdle2");
-        idleF[2] = graphics.loadImage("Generalimages\\gutsIdle3");
-        idleF[3] = graphics.loadImage("Generalimages\\gutsIdle4");
-        idleF[4] = graphics.loadImage("Generalimages\\gutsIdle5");
+        idleF[0] = graphics.loadImage("Generalimages\\gutsIdle1.png");
+        idleF[1] = graphics.loadImage("Generalimages\\gutsIdle2.png");
+        idleF[2] = graphics.loadImage("Generalimages\\gutsIdle3.png");
+        idleF[3] = graphics.loadImage("Generalimages\\gutsIdle4.png");
+        idleF[4] = graphics.loadImage("Generalimages\\gutsIdle5.png");
     }
 
 
 
-    void basicRunningSprites() {
+    void loadbasicRunningSprites() {
         mvF = new int[10];
-        mvF[0] = graphics.loadImage("Generalimages\\Running1");
-        mvF[1] = graphics.loadImage("Generalimages\\Running2");
-        mvF[2] = graphics.loadImage("Generalimages\\Running3");
-        mvF[3] = graphics.loadImage("Generalimages\\Running4");
-        mvF[4] = graphics.loadImage("Generalimages\\Running5");
-        mvF[5] = graphics.loadImage("Generalimages\\Running6");
-        mvF[6] = graphics.loadImage("Generalimages\\Running7");
-        mvF[7] = graphics.loadImage("Generalimages\\Running8");
-        mvF[8] = graphics.loadImage("Generalimages\\Running9");
-        mvF[9] = graphics.loadImage("Generalimages\\Running10");
+        mvF[0] = graphics.loadImage("Generalimages\\Running1.png");
+        mvF[1] = graphics.loadImage("Generalimages\\Running2.png");
+        mvF[2] = graphics.loadImage("Generalimages\\Running3.png");
+        mvF[3] = graphics.loadImage("Generalimages\\Running4.png");
+        mvF[4] = graphics.loadImage("Generalimages\\Running5.png");
+        mvF[5] = graphics.loadImage("Generalimages\\Running6.png");
+        mvF[6] = graphics.loadImage("Generalimages\\Running7.png");
+        mvF[7] = graphics.loadImage("Generalimages\\Running8.png");
+        mvF[8] = graphics.loadImage("Generalimages\\Running9.png");
+        mvF[9] = graphics.loadImage("Generalimages\\Running10.png");
     }
-    void QAsprites() {
+    void loadQAsprites() {
         QAF = new int[4];
         QAF[0] = graphics.loadImage("Generalimages\\QA1");
         QAF[1] = graphics.loadImage("Generalimages\\QA2");
         QAF[2] = graphics.loadImage("Generalimages\\QA3");
         QAF[3] = graphics.loadImage("Generalimages\\QA4");
     }
-    void OnHitsprites() {
+    void loadOnHitsprites() {
         Hframes = new int[4];
         Hframes[0] = graphics.loadImage("Generalimages\\hurt1");
         Hframes[1] = graphics.loadImage("Generalimages\\hurt2");
         Hframes[2] = graphics.loadImage("Generalimages\\hurt3");
         Hframes[3] = graphics.loadImage("Generalimages\\hurt4");
     }
-    void DSsprites() {
+    void loadDSsprites() {
         DSF = new int[8];
         DSF[0] = graphics.loadImage("Generalimages\\DS1");
         DSF[1] = graphics.loadImage("Generalimages\\DS2");
@@ -109,7 +117,7 @@ public:
 
     }
 
-    void basicRunningSpritesR() {       //Reversed
+    void loadbasicRunningSpritesR() {       //Reversed
         mvF_R = new int[10];
         mvF_R[0] = graphics.loadImage("Generalimages\\Running1R");
         mvF_R[1] = graphics.loadImage("Generalimages\\Running2R");
@@ -123,7 +131,7 @@ public:
         mvF_R[9] = graphics.loadImage("Generalimages\\Running10R");
     }
 
-    void DSspritesR() {
+    void loadDSspritesR() {
         DSF_R = new int[8];
         DSF_R[0] = graphics.loadImage("Generalimages\\DS1R");
         DSF_R[1] = graphics.loadImage("Generalimages\\DS2R");
@@ -136,7 +144,7 @@ public:
 
     }
 
-    void OnHitspritesR() {
+    void loadOnHitspritesR() {
         Hframes_R = new int[4];
         Hframes_R[0] = graphics.loadImage("Generalimages\\hurt1R");
         Hframes_R[1] = graphics.loadImage("Generalimages\\hurt2R");
@@ -144,7 +152,7 @@ public:
         Hframes_R[3] = graphics.loadImage("Generalimages\\hurt4R");
     }
 
-    void idleFR() {
+    void loadidleFR() {
         idleF_R = new int[5];
         idleF_R[0] = graphics.loadImage("Generalimages\\gutsIdle1R");
         idleF_R[1] = graphics.loadImage("Generalimages\\gutsIdle2R");
@@ -153,41 +161,58 @@ public:
         idleF_R[4] = graphics.loadImage("Generalimages\\gutsIdle5R");
     }
 
+    void RenderNormalstate() {
+        while (1) {
+            graphics.beginDraw();
+            for (int i=0;i < 5;i++) {
+                graphics.drawImage(idleF[i],h-130,w-222,0);
+                Sleep(100);
+            }
+        }graphics.endDraw();
+    }
     void renderRunningF(char* ch) {
         int i;
-        if (*ch == 'D') {
-            framedirection = 1;
-            while (*ch == 'D') {
+        graphics.beginDraw();
+        while (1) {
+            if (GetAsyncKeyState('D')) {
+                *ch = 'D';
+                framedirection = 1;
                 for (i = 0;i < 10;i++) {
                     //this place is reserved for the x coordinate changes every time the character moves
-                    graphics.drawImage(mvF[i], 5, 130, 0);
+                    graphics.drawImage(mvF[i], h - 300, 500, 0);
                     Sleep(50);
                 }
                 i = 0;
             }
-            if (*ch == 'A') {
+            else if (GetAsyncKeyState('A')) {
+                *ch = 'A';
                 framedirection = 0;
-                while (*ch == 'A') {
-                    for (i = 0;i <= 10;i++) {
-                        //place reserved for x coordinate change but in negative
-                        graphics.drawImage(mvF_R[i], 5, 130, 0);
-                        Sleep(50);
-                    }
+                for (i = 0;i <= 10;i++) {
+                    //place reserved for x coordinate change but in negative
+                    graphics.drawImage(mvF_R[i], h - 150, 130, 0);
+                    Sleep(50);
+                }
+            }
+            else {
+                for (i = 0;i < 4;i++) {
+                    graphics.drawImage(idleF[i], 0, h - 200, 0);
+                    Sleep(100);
                 }
             }
         }
+        graphics.endDraw();
     }
     void renderQA() {
         if (framedirection == 0) {
             for (int j = 0;j <= 4;j++) {
-                graphics.drawImage(QAF[j], w - 222, h-130, 0);
+                graphics.drawImage(QAF[j], h - 130,w-222 , 0);
                 Sleep(50);
             }
         }
         else
         {
             for (int j = 0;j <= 4;j++) {
-                graphics.drawImage(QAF_R,w-222,h-130,0);
+                graphics.drawImage(QAF_R, h - 130,w-222,0);
                 Sleep(50);
             }
         }
@@ -317,7 +342,7 @@ public:
     int* WatFe;// attack 
     void wolfmove() {
 
-        WmvFe = new int[6];
+        WmvFe = new int[7];
         WmvFe[0] = graphics.loadImage("enemyImages\\wolfidle1.png");
         WmvFe[1] = graphics.loadImage("enemyImages\\wolfrun1.png");
         WmvFe[2] = graphics.loadImage("enemyImages\\wolfrun2.png");
@@ -420,12 +445,14 @@ void firstlevel() {
     int terrainpart2 = graphics.loadImage("Generalimages\\gothiclevelterrain2.png");
     graphics.resizeImage(terrainpart2, w / 2, 200);
 
-
+    int f23=graphics.loadImage("Generalimages\\gutsIdle1.png");
+    
     while (1) {
         graphics.beginDraw();
         graphics.drawImage(bg, 0, 0, graphics.generateFromRGB(0,0,0));
        graphics.drawImage(terrainpart, w/2 , l-200, graphics.generateFromRGB(0, 0, 0));
         graphics.drawImage(terrainpart2, 0 , l-200, graphics.generateFromRGB(0, 0, 0));
+        
         Sleep(300);
         graphics.endDraw();
     }
@@ -468,24 +495,38 @@ int main() {
     player.Normalstate();
     player.hp = 3;
 
-    Mainmenu();         //loads the first level which has the terrain,special bg,and some randomly generated enemies 
+    Mainmenu();
+    player.loadbasicRunningSprites();
+    player.loadbasicRunningSpritesR();
+    player.loadDSsprites();
+    player.loadDSspritesR();
+    player.loadidleFR();
+    player.loadOnHitspritesR();
+    player.loadOnHitsprites();
+    player.deathanimation();
+    player.loadQAsprites();
+    
+
+    char* ch = (char*)malloc(sizeof(char)); // Allocate memory for char
+    
+    
+    if (ch == NULL) {
+        printf("Memory allocation failed\n");
+        return 1;  // Return an error code
+    }
+
     while (1) {
         graphics.beginDraw();
         firstlevel();
-        char ch;
 
-        if (GetAsyncKeyState('A'))
-            ch = 'A';
-        if (GetAsyncKeyState('D'))
-            ch = 'D';
-        if (GetAsyncKeyState('W'))
-            ch = 'W';
+        
 
+       
+        player.renderRunningF(ch);
+
+        graphics.endDraw();
     }
 
-
-
-
-    graphics.endDraw();
+    free(ch);  // Free the allocated memory
     return 0;
 }
