@@ -135,64 +135,64 @@ public:
     }
     void loadQAsprites() {
         QAF = new int[4];
-        QAF[0] = graphics.loadImage("Generalimages\\QA1");
-        QAF[1] = graphics.loadImage("Generalimages\\QA2");
-        QAF[2] = graphics.loadImage("Generalimages\\QA3");
-        QAF[3] = graphics.loadImage("Generalimages\\QA4");
+        QAF[0] = graphics.loadImage("Generalimages\\QA1.png");
+        QAF[1] = graphics.loadImage("Generalimages\\QA2.png");
+        QAF[2] = graphics.loadImage("Generalimages\\QA3.png");
+        QAF[3] = graphics.loadImage("Generalimages\\QA4.png");
     }
     void loadOnHitsprites() {
         Hframes = new int[4];
-        Hframes[0] = graphics.loadImage("Generalimages\\hurt1");
-        Hframes[1] = graphics.loadImage("Generalimages\\hurt2");
-        Hframes[2] = graphics.loadImage("Generalimages\\hurt3");
-        Hframes[3] = graphics.loadImage("Generalimages\\hurt4");
+        Hframes[0] = graphics.loadImage("Generalimages\\hurt1.png");
+        Hframes[1] = graphics.loadImage("Generalimages\\hurt2.png");
+        Hframes[2] = graphics.loadImage("Generalimages\\hurt3.png");
+        Hframes[3] = graphics.loadImage("Generalimages\\hurt4.png");
     }
     void loadDSsprites() {
         DSF = new int[8];
-        DSF[0] = graphics.loadImage("Generalimages\\DS1");
-        DSF[1] = graphics.loadImage("Generalimages\\DS2");
-        DSF[2] = graphics.loadImage("Generalimages\\DS3");
-        DSF[3] = graphics.loadImage("Generalimages\\DS4");
-        DSF[4] = graphics.loadImage("Generalimages\\DS5");
-        DSF[5] = graphics.loadImage("Generalimages\\DS6");
-        DSF[6] = graphics.loadImage("Generalimages\\DS7");
-        DSF[7] = graphics.loadImage("Generalimages\\DS8");
+        DSF[0] = graphics.loadImage("Generalimages\\DS1.png");
+        DSF[1] = graphics.loadImage("Generalimages\\DS2.png");
+        DSF[2] = graphics.loadImage("Generalimages\\DS3.png");
+        DSF[3] = graphics.loadImage("Generalimages\\DS4.png");
+        DSF[4] = graphics.loadImage("Generalimages\\DS5.png");
+        DSF[5] = graphics.loadImage("Generalimages\\DS6.png");
+        DSF[6] = graphics.loadImage("Generalimages\\DS7.png");
+        DSF[7] = graphics.loadImage("Generalimages\\DS8.png");
 
     }
 
     void loadbasicRunningSpritesR() {       //Reversed
         mvF_R = new int[10];
-        mvF_R[0] = graphics.loadImage("Generalimages\\Running1R");
-        mvF_R[1] = graphics.loadImage("Generalimages\\Running2R");
-        mvF_R[2] = graphics.loadImage("Generalimages\\Running3R");
-        mvF_R[3] = graphics.loadImage("Generalimages\\Running4R");
-        mvF_R[4] = graphics.loadImage("Generalimages\\Running5R");
-        mvF_R[5] = graphics.loadImage("Generalimages\\Running6R");
-        mvF_R[6] = graphics.loadImage("Generalimages\\Running7R");
-        mvF_R[7] = graphics.loadImage("Generalimages\\Running8R");
-        mvF_R[8] = graphics.loadImage("Generalimages\\Running9R");
-        mvF_R[9] = graphics.loadImage("Generalimages\\Running10R");
+        mvF_R[0] = graphics.loadImage("Generalimages\\Running1R.png");
+        mvF_R[1] = graphics.loadImage("Generalimages\\Running2R.png");
+        mvF_R[2] = graphics.loadImage("Generalimages\\Running3R.png");
+        mvF_R[3] = graphics.loadImage("Generalimages\\Running4R.png");
+        mvF_R[4] = graphics.loadImage("Generalimages\\Running5R.png");
+        mvF_R[5] = graphics.loadImage("Generalimages\\Running6R.png");
+        mvF_R[6] = graphics.loadImage("Generalimages\\Running7R.png");
+        mvF_R[7] = graphics.loadImage("Generalimages\\Running8R.png");
+        mvF_R[8] = graphics.loadImage("Generalimages\\Running9R.png");
+        mvF_R[9] = graphics.loadImage("Generalimages\\Running10R.png");
     }
 
     void loadDSspritesR() {
         DSF_R = new int[8];
-        DSF_R[0] = graphics.loadImage("Generalimages\\DS1R");
-        DSF_R[1] = graphics.loadImage("Generalimages\\DS2R");
-        DSF_R[2] = graphics.loadImage("Generalimages\\DS3R");
-        DSF_R[3] = graphics.loadImage("Generalimages\\DS4R");
-        DSF_R[4] = graphics.loadImage("Generalimages\\DS5R");
-        DSF_R[5] = graphics.loadImage("Generalimages\\DS6R");
-        DSF_R[6] = graphics.loadImage("Generalimages\\DS7R");
-        DSF_R[7] = graphics.loadImage("Generalimages\\DS8R");
+        DSF_R[0] = graphics.loadImage("Generalimages\\DS1R.png");
+        DSF_R[1] = graphics.loadImage("Generalimages\\DS2R.png");
+        DSF_R[2] = graphics.loadImage("Generalimages\\DS3R.png");
+        DSF_R[3] = graphics.loadImage("Generalimages\\DS4R.png");
+        DSF_R[4] = graphics.loadImage("Generalimages\\DS5R.png");
+        DSF_R[5] = graphics.loadImage("Generalimages\\DS6R.png");
+        DSF_R[6] = graphics.loadImage("Generalimages\\DS7R.png");
+        DSF_R[7] = graphics.loadImage("Generalimages\\DS8R.png");
 
     }
 
     void loadOnHitspritesR() {
         Hframes_R = new int[4];
-        Hframes_R[0] = graphics.loadImage("Generalimages\\hurt1R");
-        Hframes_R[1] = graphics.loadImage("Generalimages\\hurt2R");
-        Hframes_R[2] = graphics.loadImage("Generalimages\\hurt3R");
-        Hframes_R[3] = graphics.loadImage("Generalimages\\hurt4R");
+        Hframes_R[0] = graphics.loadImage("Generalimages\\hurt1R.png");
+        Hframes_R[1] = graphics.loadImage("Generalimages\\hurt2R.png");
+        Hframes_R[2] = graphics.loadImage("Generalimages\\hurt3R.png");
+        Hframes_R[3] = graphics.loadImage("Generalimages\\hurt4R.png");
     }
 
     void loadidleFR() {
@@ -215,46 +215,50 @@ public:
     //    }graphics.endDraw();
     //}
     void renderRunningF() {
-        int i;
+        static int k = 0;
+        static int R = 0;
+        char ch = ' ';
 
-        int startingpos = graphics.loadImage("Generalimages\\menacing.png");
-        graphics.drawImage(startingpos, Xp, Yp,0);
-       char ch = ' ';
         if (GetAsyncKeyState('D')) {
             ch = 'D';
             framedirection = 1;
-            for (i = 0;i < 10;i++) {
-                //this place is reserved for the x coordinate changes every time the character moves
-                graphics.drawImage(mvF[i], Xp+=20, Yp, 0);
-                Sleep(50);
-            }
-            i = 0;
+            graphics.drawImage(mvF[k], Xp += 30, Yp + 140, 0);
+            k++;
+            Sleep(50);
         }
         else if (GetAsyncKeyState('A')) {
             ch = 'A';
             framedirection = 0;
-            for (i = 0;i <= 10;i++) {
-                //place reserved for x coordinate change but in negative
-                graphics.drawImage(mvF_R[i], Xp-=20, Yp, 0);
-                Sleep(50);
-            }
+            graphics.drawImage(mvF_R[R], Xp -= 30, Yp + 140, 0);
+            R++;
+            Sleep(50);
         }
-        else if (!_kbhit() && framedirection==1){
-            for (i = 0;i < 4;i++) {
-                graphics.drawImage(idleF[i], Xp,Yp, 0);
-                Sleep(100);
-            }
+        else if (!_kbhit() && framedirection == 1) {
+            graphics.drawImage(idleF[k], Xp, Yp, 0);
+            k++;
+            Sleep(50);
         }
         else if (!_kbhit() && framedirection == 0) {
-            for (i = 0;i < 4;i++) {
-                graphics.drawImage(idleF_R[i], Xp, Yp, 0);
-            }
-            if (Xp == w-200) {
-                stagecount++;
-                Xp = 0;
-            }
+            graphics.drawImage(idleF_R[R], Xp, Yp, 0);
+            R++;
+            Sleep(50);
+        }
+
+        if (Xp == w - 200) {
+            stagecount++;
+            Xp = 0;
+        }
+
+        if (k == 9) {
+            k = 0;
+        }
+
+        if (R == 9) {
+            R = 0;
         }
     }
+
+    
     void Dodgingfunc(char* ch) {
         if (*ch == 'Q' || framedirection == 1) {
             graphics.drawImage(dodge, Xp - 200, Yp, 0);
