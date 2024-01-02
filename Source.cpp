@@ -33,14 +33,14 @@ public:
     int dodgeR;
     int* idleF;
     int* idleF_R;
-    int* misc;
+    
     Guts() {
         w = graphics.getWindowWidth();
         h = graphics.getWindowHeight();
         mvF = DSF = mvF_R = DSF_R = QAF = Hframes = Hframes_R = idleF = idleF_R = nullptr;
         QAF_R = DSF_R = nullptr;
         stagecount = 0;
-        Xp = 0;
+        Xp  = 0;
         Yp = h - 480;
         mvF_R = nullptr;
 
@@ -85,11 +85,7 @@ public:
 
 
     }
-    void loadmisc() {
-        misc = new int[100];
-        misc[0] = graphics.loadImage("misc\\return.png");  graphics.resizeImage(misc[0], 200, 200);
 
-    }
     void deathanimation() {
 
 
@@ -176,16 +172,6 @@ public:
         mvF_R[7] = graphics.loadImage("Generalimages\\Running8R.png");
         mvF_R[8] = graphics.loadImage("Generalimages\\Running9R.png");
         mvF_R[9] = graphics.loadImage("Generalimages\\Running10R.png");
-        mvF_R[0] = graphics.loadImage("Generalimages\\Running1R.png");
-        mvF_R[1] = graphics.loadImage("Generalimages\\Running2R.png");
-        mvF_R[2] = graphics.loadImage("Generalimages\\Running3R.png");
-        mvF_R[3] = graphics.loadImage("Generalimages\\Running4R.png");
-        mvF_R[4] = graphics.loadImage("Generalimages\\Running5R.png");
-        mvF_R[5] = graphics.loadImage("Generalimages\\Running6R.png");
-        mvF_R[6] = graphics.loadImage("Generalimages\\Running7R.png");
-        mvF_R[7] = graphics.loadImage("Generalimages\\Running8R.png");
-        mvF_R[8] = graphics.loadImage("Generalimages\\Running9R.png");
-        mvF_R[9] = graphics.loadImage("Generalimages\\Running10R.png");
     }
 
     void loadDSspritesR() {
@@ -203,10 +189,6 @@ public:
 
     void loadOnHitspritesR() {
         Hframes_R = new int[4];
-        Hframes_R[0] = graphics.loadImage("Generalimages\\hurt1R.png");
-        Hframes_R[1] = graphics.loadImage("Generalimages\\hurt2R.png");
-        Hframes_R[2] = graphics.loadImage("Generalimages\\hurt3R.png");
-        Hframes_R[3] = graphics.loadImage("Generalimages\\hurt4R.png");
         Hframes_R[0] = graphics.loadImage("Generalimages\\hurt1R.png");
         Hframes_R[1] = graphics.loadImage("Generalimages\\hurt2R.png");
         Hframes_R[2] = graphics.loadImage("Generalimages\\hurt3R.png");
@@ -232,22 +214,6 @@ public:
     //        }
     //    }graphics.endDraw();
     //}
-
-    void back2start() {
-    
-        if (Xp >= w) {
-
-            Xp = -10;
-
-        }
-        if (Xp < -10) {
-
-            Xp = -10;
-           
-
-        }
-        
-    }
     void renderRunningF() {
         static int k = 0;
         static int R = 0;
@@ -258,29 +224,24 @@ public:
             framedirection = 1;
             graphics.drawImage(mvF[k], Xp += 30, Yp + 140, 0);
             k++;
-            Sleep(50);
+           
         }
         else if (GetAsyncKeyState('A')) {
             ch = 'A';
             framedirection = 0;
-            for (i = 0; i <= 10; i++) {
-                //place reserved for x coordinate change but in negative
-                graphics.drawImage(mvF_R[i], Xp -= 20, Yp, 0);
-                Sleep(50);
-            }
             graphics.drawImage(mvF_R[R], Xp -= 30, Yp + 140, 0);
             R++;
-            Sleep(50);
+           
         }
         else if (!_kbhit() && framedirection == 1) {
             graphics.drawImage(idleF[k], Xp, Yp, 0);
             k++;
-            Sleep(50);
+           
         }
         else if (!_kbhit() && framedirection == 0) {
             graphics.drawImage(idleF_R[R], Xp, Yp, 0);
             R++;
-            Sleep(50);
+           
         }
 
         if (Xp == w - 200) {
@@ -297,7 +258,22 @@ public:
         }
     }
 
-    
+
+    void back2start() {
+
+        if (Xp >= w) {
+
+            Xp = -10;
+
+        }
+        if (Xp < -10) {
+
+            Xp = -10;
+
+
+        }
+
+    }
     void Dodgingfunc(char* ch) {
         if (*ch == 'Q' || framedirection == 1) {
             graphics.drawImage(dodge, Xp - 200, Yp, 0);
@@ -309,14 +285,14 @@ public:
 
     void renderQA() {
         if (framedirection == 0) {
-            for (int j = 0; j <= 4; j++) {
+            for (int j = 0;j <= 4;j++) {
                 graphics.drawImage(QAF[j], Xp, Yp, 0);
                 Sleep(50);
             }
         }
         else
         {
-            for (int j = 0; j <= 4; j++) {
+            for (int j = 0;j <= 4;j++) {
                 graphics.drawImage(QAF_R[j], Xp, Yp, 0);
                 Sleep(50);
             }
@@ -540,6 +516,7 @@ public:
 
 }*/
 
+
 void firstlevel() {
     int w = graphics.getWindowWidth();
     int l = graphics.getWindowHeight();
@@ -557,7 +534,7 @@ void firstlevel() {
     graphics.drawImage(bg, 0, 0, graphics.generateFromRGB(0, 0, 0));
     graphics.drawImage(terrainpart, w / 2, l - 200, graphics.generateFromRGB(0, 0, 0));
     graphics.drawImage(terrainpart2, 0, l - 200, graphics.generateFromRGB(0, 0, 0));
-
+   
 
     Sleep(300);
     //   graphics.endDraw();
@@ -598,11 +575,11 @@ int main() {
     graphics.hideCursor();
 
     Guts player;
-
+   
     player.hp = 3;
 
     Mainmenu();
-
+    
     player.loadidleF();
     player.loadbasicRunningSprites();
     player.loadbasicRunningSpritesR();
@@ -624,17 +601,16 @@ int main() {
     }
 
     while (1) {
-        player.back2start();
+
         graphics.beginDraw();
         firstlevel();
-     
+        player.back2start();
 
 
 
         player.renderRunningF();
-       
+
         graphics.endDraw();
-        
     }
 
     free(ch);  // Free the allocated memory
