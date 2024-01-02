@@ -1,4 +1,5 @@
 #include<stdio.h>
+#include<ctype.h>
 #include<conio.h>
 #include "CC212SGL.h"
 #include<stdlib.h>
@@ -17,7 +18,7 @@ class Guts
 {
 
 public:
-    int hp;
+    int hp, stagecount;//stagecount is self explantory
     bool winflag;
     float currentframe = 0;
     int Xp, Yp;      //x and y points for the player
@@ -32,14 +33,15 @@ public:
     int dodgeR;
     int* idleF;
     int* idleF_R;
+    
     Guts() {
         w = graphics.getWindowWidth();
         h = graphics.getWindowHeight();
         mvF = DSF = mvF_R = DSF_R = QAF = Hframes = Hframes_R = idleF = idleF_R = nullptr;
         QAF_R = DSF_R = nullptr;
-
+        stagecount = 0;
         Xp  = 0;
-        Yp = 500;
+        Yp = h - 480;
         mvF_R = nullptr;
 
         hp = 3;
@@ -214,6 +216,9 @@ public:
     //}
     void renderRunningF() {
         int i;
+
+        int startingpos = graphics.loadImage("Generalimages\\menacing.png");
+        graphics.drawImage(startingpos, Xp, Yp,0);
        char ch = ' ';
         if (GetAsyncKeyState('D')) {
             ch = 'D';
@@ -243,6 +248,10 @@ public:
         else if (!_kbhit() && framedirection == 0) {
             for (i = 0;i < 4;i++) {
                 graphics.drawImage(idleF_R[i], Xp, Yp, 0);
+            }
+            if (Xp == w-200) {
+                stagecount++;
+                Xp = 0;
             }
         }
     }
@@ -505,7 +514,7 @@ void firstlevel() {
     graphics.drawImage(bg, 0, 0, graphics.generateFromRGB(0, 0, 0));
     graphics.drawImage(terrainpart, w / 2, l - 200, graphics.generateFromRGB(0, 0, 0));
     graphics.drawImage(terrainpart2, 0, l - 200, graphics.generateFromRGB(0, 0, 0));
-    graphics.drawImage(startingpos, 0, l - 480, COLORS::WHITE);
+   
 
     Sleep(300);
     //   graphics.endDraw();
