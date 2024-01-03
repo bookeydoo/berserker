@@ -6,10 +6,13 @@
 #pragma comment(lib,"CC212SGL.lib")
 #include<time.h>
 #include<windows.h>
-#define FramesPerSec 30 
+
 CC212SGL graphics;
 int terrain;
 #define _CRT_SECURE_NO_WARNINGS
+
+//framelimit =70
+int FramesPerSec =60;
 
 int state = 0;
 
@@ -18,6 +21,7 @@ class Guts
 {
 
 public:
+    int* RunAF;
     int hp, stagecount;//stagecount is self explantory
     bool winflag;
     float currentframe = 0;
@@ -29,8 +33,8 @@ public:
     int* QAF_R;   //quick attack frames
     int* Hframes, * Hframes_R; //damage frames
     int w, h;    //the window length and height for resizing images and changing background
-    int dodge;
-    int dodgeR;
+    int dodge=0;
+    int dodgeR=0;
     int* idleF;
     int* idleF_R;
 
@@ -43,7 +47,7 @@ public:
         Xp = 0;
         Yp = h - 480;
         mvF_R = nullptr;
-
+        RunAF = nullptr;
         hp = 3;
         alive = 1;
     }
@@ -160,6 +164,20 @@ public:
 
     }
 
+    void loadRunA() {
+        RunAF = new int[5];
+        RunAF[0] = graphics.loadImage("Generalimages\\RunA1.png");
+        RunAF[1] = graphics.loadImage("Generalimages\\RunA2.png");
+        RunAF[2] = graphics.loadImage("Generalimages\\RunA3.png");
+        RunAF[3] = graphics.loadImage("Generalimages\\RunA4.png");
+        RunAF[4] = graphics.loadImage("Generalimages\\RunA5.png");
+        
+
+
+    }
+
+    
+    
     void loadbasicRunningSpritesR() {       //Reversed
         mvF_R = new int[10];
         mvF_R[0] = graphics.loadImage("Generalimages\\Running1R.png");
@@ -184,6 +202,7 @@ public:
         DSF_R[5] = graphics.loadImage("Generalimages\\DS6R.png");
         DSF_R[6] = graphics.loadImage("Generalimages\\DS7R.png");
         DSF_R[7] = graphics.loadImage("Generalimages\\DS8R.png");
+       
 
     }
 
@@ -204,31 +223,39 @@ public:
         idleF_R[4] = graphics.loadImage("Generalimages\\gutsIdle5R.png");
     }
 
-    //rendering functions start here 
-    //void loadidleF() {
-    //   // while (1) {
-    //        graphics.beginDraw();
-    //        for (int i = 0;i < 5;i++) {
-    //            graphics.drawImage(idleF[i], h - 130, w - 222, 0);
-    //            Sleep(100);
-    //        }
-    //    }graphics.endDraw();
-    //}
+    void loadQAspritesR() {
+        QAF_R = new int[4];
+        QAF_R[0] = graphics.loadImage("Generalimages\\QA1R.png");
+        QAF_R[1] = graphics.loadImage("Generalimages\\QA2R.png");
+        QAF_R[2] = graphics.loadImage("Generalimages\\QA3R.png");
+        QAF_R[3] = graphics.loadImage("Generalimages\\QA4R.png");
+    
+   }
+
+
     void movementF() {
         static int k = 0;
         static int R = 0;
         static int i = 0;
+        static int z = 0;
+        static int A1 = 0;
+        static int A2 = 0;
+        static int A3 = 0;
+        static int A4 = 0;
+        static int A5 = 0;
+       
 
         if (_kbhit() == 1) {
             int input = _getch();
-
+           
             switch (input) {
             case 'D':
             case 'd':
+                
+                
                 framedirection = 1;
                 graphics.drawImage(mvF[k], Xp += 80, Yp + 140, GREEN);
                 k++;
-                Sleep(150);
                 break;
 
             case 'A':
@@ -236,46 +263,111 @@ public:
                 framedirection = 0;
                 graphics.drawImage(mvF_R[R], Xp -= 50, Yp + 140, GREEN);
                 R++;
+
                 break;
 
-
-            case VK_SHIFT:
+            case 'F':
+            case 'f':
                 if (framedirection == 1) {
-                    graphics.drawImage(dodge, Xp - 200, Yp + 140, 1);
+                    if (A1 == 3) {
+                        {
+                            graphics.drawImage(QAF[3], Xp += 40, Yp + 80, GREEN);
+                            A1++;
+                        }
+                    }
+                    else {
+                        graphics.drawImage(QAF[A1], Xp += 40, Yp + 140, GREEN);
+                        A1++;
+                    }
+                }
+                else if (A2 == 3) {
+                    {
+                        graphics.drawImage(QAF_R[3], Xp -= 40, Yp + 80, GREEN);
+                        A2++;
+                    }
                 }
                 else {
-                    graphics.drawImage(dodgeR, Xp + 200, Yp + 140, 1);
+                
+                    graphics.drawImage(QAF_R[A2], Xp -= 40, Yp + 140, GREEN);
+                    A2++;
+                }break;
+
+        
+            case VK_SPACE:
+                if (framedirection == 1) {
+                    Xp -= 200;
+                    graphics.drawImage(dodge, Xp , Yp + 100, 1);
+                }
+                else if(framedirection==0){
+                    Xp += 200;
+                    graphics.drawImage(dodgeR, Xp, Yp + 100, 1);
                 }
                 break;
-            }
-        }
-                
 
-
-            
-        else {
-                    if (framedirection == 1) {
-                        graphics.drawImage(idleF[i], Xp, Yp+140, 1);
-                        i++;
-                    }
-                    else  {
-                        graphics.drawImage(idleF_R[i], Xp, Yp+140, 1);
-                        i++;
-                    }
+            case 'R':
+            case 'r':
+                if (framedirection == 1) {
+                    graphics.drawImage(RunAF[A3], Xp += 20, Yp + 50, 1);
+                    A3++;
                 }
-             
+                else {
+                    
+                    graphics.setFontSizeAndBoldness(50, 90);
+                    graphics.drawText(Xp,Yp-100,"you can only use this while running forward");
+                    graphics.drawImage(idleF_R[i], Xp, Yp + 140, 1);
+                }
+            case 'S':
+            case 's':
+                if (framedirection == 1) {
+                    graphics.drawImage(DSF[A4],Xp+=20,Yp+50,1);
+                    A4++;
+
+                }
+                else if(framedirection==0) {
+                    graphics.drawImage(DSF_R[A5], Xp -= 20, Yp + 50, 1);
+                }
+            }
             
-        if (i==4) {
+        }
+
+        else {
+            if (framedirection == 1) {
+                graphics.drawImage(idleF[i], Xp, Yp + 140, 1);
+                i++;
+            }
+            else if(framedirection==0){
+                graphics.drawImage(idleF_R[0], Xp, Yp + 140, 1);
+                
+            }
+        } 
+
+        if (i == 4) {
             i = 0;
-            }
+        }
 
-            if (k == 9) {
-                k = 0;
-            }
+        if (k == 9) {
+            k = 0;
+        }
 
-            if (R == 9) {
-                R = 0;
-            }
+        if (R == 9) {
+            R = 0;
+        }
+        if (A1 == 4) {
+            A1 = 0;
+        }
+
+        if (A2 == 4) {
+            A2 = 0;
+        }
+        if (A3 == 4) {
+            A3 = 0;
+        }
+        if (A4 == 8) {
+            A4 = 0;
+      }
+        if (A5 == 8) {
+            A5 == 0;
+        }
     }
 
 
@@ -295,34 +387,8 @@ public:
         }
 
     }
-   /* void attackF() {
-        static int A1 = 0;
-        static int A2 = 0;
-        char Ach = ' ';
-        if (_kbhit() == 1) {
-            int Ach = _getch();
-
-            switch (Ach) {
-            case 'D':
-            case 'd':
-                framedirection = 1;
-                graphics.drawImage(mvF[k], Xp += 80, Yp + 140, GREEN);
-                k++;
-                Sleep(150);
-                break;
-
-            case 'A':
-            case 'a':
-                framedirection = 0;
-                graphics.drawImage(mvF_R[R], Xp -= 50, Yp + 140, GREEN);
-                R++;
-                break;*/
-
-
-    
-
-  
-    };
+ 
+};
 
     //class enemies {
     //public:
@@ -556,11 +622,22 @@ public:
         graphics.drawImage(terrainpart, w / 2, l - 200, graphics.generateFromRGB(0, 0, 0));
         graphics.drawImage(terrainpart2, 0, l - 200, graphics.generateFromRGB(0, 0, 0));
 
+        Sleep(200);
+       
 
-        Sleep(300);
-        //   graphics.endDraw();
-      // }
     }
+    void waitForTime(int start)
+    {
+        while (1)
+        {
+            float t = (clock() / (float)CLOCKS_PER_SEC * 1000.0f) - (start / (float)CLOCKS_PER_SEC * 1000.0f);
+            if (t > 1.0f / (FramesPerSec * 1000.0f)) {
+                break;
+            }
+        }
+    }
+
+
 
     void Mainmenu() {
 
@@ -573,10 +650,10 @@ public:
             graphics.drawImage(mainmenu, 0, 0, COLORS::BLACK);
             graphics.setDrawingColor(COLORS::RED);
             graphics.setFontSizeAndBoldness(150, 30);
-            graphics.drawText((w / 2.5) - 500, (h / 2) - 500, "Berserker alpha version");
+            graphics.drawText((double(w) / 2.5) - 500, (double(h) / 2) - 500, "Berserker alpha version");
             graphics.setDrawingColor(COLORS::RED);
             graphics.setFontSizeAndBoldness(40, 90);
-            graphics.drawText((w / 2.6) - h, (h / 1.3) - h, "press F to start the game");
+            graphics.drawText((double(w) / 2.6) - h, (double(h) / 1.3) - h, "press F to start the game");
 
 
 
@@ -584,7 +661,7 @@ public:
             {
                 char ch = _getch();
                 if (ch == 'F' || ch == 'f')
-                break;
+                    break;
             }
             graphics.endDraw();
 
@@ -606,6 +683,7 @@ public:
         player.loadbasicRunningSprites();
         player.loadbasicRunningSpritesR();
         player.loadDSsprites();
+        player.loadQAsprites();
         player.loadDSspritesR();
         player.loadidleFR();
         player.loadOnHitspritesR();
@@ -613,6 +691,8 @@ public:
         player.deathanimation();
         player.loadQAsprites();
         player.loadDodgeSprites();
+        player.loadQAspritesR();
+        player.loadRunA();
 
         char* ch = (char*)malloc(sizeof(char)); // Allocate memory for char
 
@@ -629,10 +709,13 @@ public:
             player.back2start();
 
             player.movementF();
-            
+           // player.attackF();
+
             graphics.endDraw();
+            waitForTime(70);
         }
 
         free(ch);  // Free the allocated memory
         return 0;
     }
+
