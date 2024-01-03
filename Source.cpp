@@ -559,15 +559,15 @@ public:
         mvFe[8] = graphics.loadImage("enemyImages\\burning-ghoul-9.png");
 
         mvFeR = new int[9];
-        mvFeR[0] = graphics.loadImage("enemyImagesR\\burning-ghoul-1.png");
-        mvFeR[1] = graphics.loadImage("enemyImagesR\\burning-ghoul-2.png");
-        mvFeR[2] = graphics.loadImage("enemyImagesR\\burning-ghoul-3.png");
-        mvFeR[3] = graphics.loadImage("enemyImagesR\\burning-ghoul-4.png");
-        mvFeR[4] = graphics.loadImage("enemyImagesR\\burning-ghoul-5.png");
-        mvFeR[5] = graphics.loadImage("enemyImagesR\\burning-ghoul-6.png");
-        mvFeR[6] = graphics.loadImage("enemyImagesR\\burning-ghoul-7.png");
-        mvFeR[7] = graphics.loadImage("enemyImagesR\\burning-ghoul-8.png");
-        mvFeR[8] = graphics.loadImage("enemyImagesR\\burning-ghoul-9.png");
+        mvFeR[0] = graphics.loadImage("enemyImages\\burning-ghoul-1R.png");
+        mvFeR[1] = graphics.loadImage("enemyImages\\burning-ghoul-2R.png");
+        mvFeR[2] = graphics.loadImage("enemyImages\\burning-ghoul-3R.png");
+        mvFeR[3] = graphics.loadImage("enemyImages\\burning-ghoul-4R.png");
+        mvFeR[4] = graphics.loadImage("enemyImages\\burning-ghoul-5R.png");
+        mvFeR[5] = graphics.loadImage("enemyImages\\burning-ghoul-6R.png");
+        mvFeR[6] = graphics.loadImage("enemyImages\\burning-ghoul-7R.png");
+        mvFeR[7] = graphics.loadImage("enemyImages\\burning-ghoul-8R.png");
+        mvFeR[8] = graphics.loadImage("enemyImages\\burning-ghoul-9R.png");
 
 
     }
