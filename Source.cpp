@@ -43,7 +43,7 @@ public:
         h = graphics.getWindowHeight();
         mvF = DSF = mvF_R = DSF_R = QAF = Hframes = Hframes_R = idleF = idleF_R = nullptr;
         QAF_R = DSF_R = nullptr;
-        stagecount = 0;
+        stagecount = 1;
         Xp = 0;
         Yp = h - 480;
         mvF_R = nullptr;
@@ -359,7 +359,7 @@ public:
         if (A2 == 4) {
             A2 = 0;
         }
-        if (A3 == 4) {
+        if (A3 == 5) {
             A3 = 0;
         }
         if (A4 == 8) {
@@ -538,11 +538,11 @@ public:
 
     class burn {
     public:
-        bool alive;
-        bool framedirection;
-        int Xe, Ye;
+        bool alive=true;
+        bool framedirection=0;
+        int Xe=(graphics.getWindowWidth() - 100), Ye;
         int speed;
-        int hp;
+        int hp=1;
         int* mvFe; // movement frames for enemies
         void BurnWalk() {
 
@@ -558,6 +558,23 @@ public:
             mvFe[8] = graphics.loadImage("enemyImages\\burning-ghoul-9.png");
 
 
+        }
+        void checkstate() {
+            if (!hp) {
+                alive = false;
+            }
+        }
+        void burnatk(){
+            int i = 0;
+            if (alive) {
+                Xe -= 30;
+                graphics.drawImage(mvFe[i],Xe,graphics.getWindowHeight() - 600, 1);
+                i++;
+
+            }
+            if (i == 8) {
+                i = 0;
+            }
         }
 
 
@@ -590,21 +607,9 @@ public:
 
 
 
+  
 
-    /*void loadingscreen() {
-        int w = graphics.getWindowWidth();
-        int l = graphics.getWindowHeight();
-        int loadingscreenimg = graphics.loadImage("Generalimages\\guts angry");
-        graphics.resizeImage(loadingscreenimg, w / 3, l / 3);
-        graphics.drawImage(loadingscreenimg, w - 300, l - 500, RGB(0, 0, 0));
-        graphics.setDrawingColor(COLORS::RED);
-        graphics.drawText(w / 3, l - 500, "loading");
-
-
-    }*/
-
-
-    void firstlevel() {
+    void firstlevel(Guts& player) {
         int w = graphics.getWindowWidth();
         int l = graphics.getWindowHeight();
         int bg = graphics.loadImage("Generalimages\\gothiclevelbg.png");
@@ -613,14 +618,18 @@ public:
         graphics.resizeImage(terrainpart, w / 2, 200);
         int terrainpart2 = graphics.loadImage("Generalimages\\gothiclevelterrain2.png");
         graphics.resizeImage(terrainpart2, w / 2, 200);
+      
 
-        int startingpos = graphics.loadImage("Generalimages\\menacing.png");
-
-        // while (1) {
-           //  graphics.beginDraw();
+        
+          
         graphics.drawImage(bg, 0, 0, graphics.generateFromRGB(0, 0, 0));
         graphics.drawImage(terrainpart, w / 2, l - 200, graphics.generateFromRGB(0, 0, 0));
         graphics.drawImage(terrainpart2, 0, l - 200, graphics.generateFromRGB(0, 0, 0));
+
+        if (player.stagecount == 1) {
+            graphics.setFontSizeAndBoldness(90,50);
+            graphics.drawText(w / 2, l / 2 -300, "first stage");
+        }
 
         Sleep(200);
        
@@ -672,7 +681,7 @@ public:
         graphics.setup();
         graphics.setFullScreenMode();
         graphics.hideCursor();
-
+        burn firenigga;
         Guts player;
 
         player.hp = 3;
@@ -693,7 +702,7 @@ public:
         player.loadDodgeSprites();
         player.loadQAspritesR();
         player.loadRunA();
-
+        firenigga.BurnWalk();
         char* ch = (char*)malloc(sizeof(char)); // Allocate memory for char
 
 
@@ -705,11 +714,11 @@ public:
         while (1) {
 
             graphics.beginDraw();
-            firstlevel();
+            firstlevel(player);
             player.back2start();
 
             player.movementF();
-           // player.attackF();
+            firenigga.burnatk();
 
             graphics.endDraw();
             waitForTime(70);
