@@ -37,6 +37,7 @@ public:
     int dodgeR = 0;
     int* idleF;
     int* idleF_R;
+    int* jump;
 
     Guts() {
         w = graphics.getWindowWidth();
@@ -50,6 +51,7 @@ public:
         RunAF = nullptr;
         hp = 3;
         alive = 1;
+        jump = nullptr;
     }
     Guts(int xp, int yp) {
         framedirection = 1; //1 is right
@@ -59,6 +61,7 @@ public:
     }
     ~Guts() {
         delete[] mvF, DSF, mvF_R, DSF_R, QAF, Hframes, Hframes_R, idleF, idleF_R;
+        delete[] jump,QAF_R,RunAF,mvF_R;
     }
     //loading functions except for goodending and mainmenu
     void goodending() {
@@ -238,6 +241,7 @@ public:
         static int R = 0;
         static int i = 0;
         static int z = 0;
+        static int jmp = 0;
         static int A1 = 0;
         static int A2 = 0;
         static int A3 = 0;
@@ -292,6 +296,7 @@ public:
                     A2++;
                 }break;
 
+                
 
             case VK_SPACE:
                 if (framedirection == 1) {
@@ -366,7 +371,7 @@ public:
             A4 = 0;
         }
         if (A5 == 8) {
-            A5 == 0;
+            A5 = 0;
         }
     }
 
@@ -557,38 +562,45 @@ public:
         mvFe[6] = graphics.loadImage("enemyImages\\burning-ghoul-7.png");
         mvFe[7] = graphics.loadImage("enemyImages\\burning-ghoul-8.png");
         mvFe[8] = graphics.loadImage("enemyImages\\burning-ghoul-9.png");
+       
+
+
 
         mvFeR = new int[9];
-        mvFeR[0] = graphics.loadImage("enemyImages\\burning-ghoul-1R.png");
-        mvFeR[1] = graphics.loadImage("enemyImages\\burning-ghoul-2R.png");
-        mvFeR[2] = graphics.loadImage("enemyImages\\burning-ghoul-3R.png");
-        mvFeR[3] = graphics.loadImage("enemyImages\\burning-ghoul-4R.png");
-        mvFeR[4] = graphics.loadImage("enemyImages\\burning-ghoul-5R.png");
-        mvFeR[5] = graphics.loadImage("enemyImages\\burning-ghoul-6R.png");
-        mvFeR[6] = graphics.loadImage("enemyImages\\burning-ghoul-7R.png");
-        mvFeR[7] = graphics.loadImage("enemyImages\\burning-ghoul-8R.png");
-        mvFeR[8] = graphics.loadImage("enemyImages\\burning-ghoul-9R.png");
+        mvFeR[0] = graphics.loadImage("enemyImages\\burning-ghoul1R.png");
+        mvFeR[1] = graphics.loadImage("enemyImages\\burning-ghoul2R.png");
+        mvFeR[2] = graphics.loadImage("enemyImages\\burning-ghoul3R.png");
+        mvFeR[3] = graphics.loadImage("enemyImages\\burning-ghoul4R.png");
+        mvFeR[4] = graphics.loadImage("enemyImages\\burning-ghoul5R.png");
+        mvFeR[5] = graphics.loadImage("enemyImages\\burning-ghoul6R.png");
+        mvFeR[6] = graphics.loadImage("enemyImages\\burning-ghoul7R.png");
+        mvFeR[7] = graphics.loadImage("enemyImages\\burning-ghoul8R.png");
+        mvFeR[8] = graphics.loadImage("enemyImages\\burning-ghoul9R.png");
 
 
     }
     void checkstate() {
-        if (!hp) {
+        if (hp<0) {
             alive = false;
         }
     }
-    void burnatk(Guts &player) {
+    void burnatk(Guts& player) {
         int i = 0;
         if (alive && player.Xp < Xe) {
-            framedirection = 0;
+            
             Xe -= 30;
-            graphics.drawImage(mvFe[i], Xe, graphics.getWindowHeight() - 600, 1);
+            graphics.drawImage(mvFe[i], Xe, graphics.getWindowHeight() -300, 1);
             i++;
 
-        }else if (alive && player.Xp > Xe){
-        framedirection = 0;
-        Xe += 30;
-        graphics.drawImage(mvFeR[i], Xe, graphics.getWindowHeight() - 600, 1);
-        i++;
+        }
+        else if (alive && player.Xp > Xe) {
+            
+            Xe += 30;
+            graphics.drawImage(mvFeR[i], Xe, graphics.getWindowHeight() -300, 1);
+            i++;
+        }
+        if (!alive) {
+            graphics.drawImage(mvFe[1],Xe,graphics.getWindowHeight()-1000,0);
         }
 
         if (i == 8) {
@@ -667,6 +679,7 @@ void waitForTime(int start)
 
 
 
+
 void Mainmenu() {
 
     int w = graphics.getWindowWidth();
@@ -735,9 +748,9 @@ int main() {
         graphics.beginDraw();
         firstlevel(player);
         player.back2start();
-
+        
         player.movementF();
-       firenigga.burnatk(player);
+        firenigga.burnatk(player);
 
         graphics.endDraw();
         waitForTime(70);
