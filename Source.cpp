@@ -217,7 +217,7 @@ public:
     void movementF() {
         static int k = 0;
         static int R = 0;
-        char ch = ' ';
+        static int i = 0;
 
         if (_kbhit() == 1) {
             int input = _getch();
@@ -226,8 +226,9 @@ public:
             case 'D':
             case 'd':
                 framedirection = 1;
-                graphics.drawImage(mvF[k], Xp += 50, Yp + 140, GREEN);
+                graphics.drawImage(mvF[k], Xp += 80, Yp + 140, GREEN);
                 k++;
+                Sleep(150);
                 break;
 
             case 'A':
@@ -237,28 +238,35 @@ public:
                 R++;
                 break;
 
-            case 'F':
-            case 'f':
+
+            case VK_SHIFT:
                 if (framedirection == 1) {
-                    graphics.drawImage(dodge, Xp - 200, Yp, 1);
+                    graphics.drawImage(dodge, Xp - 200, Yp + 140, 1);
                 }
                 else {
-                    graphics.drawImage(dodgeR, Xp + 200, Yp, 0);
+                    graphics.drawImage(dodgeR, Xp + 200, Yp + 140, 1);
                 }
                 break;
+            }
+        }
+                
 
-            default:
-                if (!_kbhit()) {
+
+            
+        else {
                     if (framedirection == 1) {
-                        graphics.drawImage(idleF[k], Xp, Yp, 1);
-                        k++;
+                        graphics.drawImage(idleF[i], Xp, Yp+140, 1);
+                        i++;
                     }
-                    else if (framedirection == 0) {
-                        graphics.drawImage(idleF_R[R], Xp, Yp, 1);
-                        R++;
+                    else  {
+                        graphics.drawImage(idleF_R[i], Xp, Yp+140, 1);
+                        i++;
                     }
                 }
-                break;
+             
+            
+        if (i==4) {
+            i = 0;
             }
 
             if (k == 9) {
@@ -268,7 +276,6 @@ public:
             if (R == 9) {
                 R = 0;
             }
-        }
     }
 
 
@@ -278,7 +285,7 @@ public:
         if (Xp >= w) {
 
             Xp = -10;
-
+            stagecount++;
         }
         if (Xp < -10) {
 
@@ -288,6 +295,32 @@ public:
         }
 
     }
+   /* void attackF() {
+        static int A1 = 0;
+        static int A2 = 0;
+        char Ach = ' ';
+        if (_kbhit() == 1) {
+            int Ach = _getch();
+
+            switch (Ach) {
+            case 'D':
+            case 'd':
+                framedirection = 1;
+                graphics.drawImage(mvF[k], Xp += 80, Yp + 140, GREEN);
+                k++;
+                Sleep(150);
+                break;
+
+            case 'A':
+            case 'a':
+                framedirection = 0;
+                graphics.drawImage(mvF_R[R], Xp -= 50, Yp + 140, GREEN);
+                R++;
+                break;*/
+
+
+    
+
   
     };
 
@@ -579,7 +612,7 @@ public:
         player.loadOnHitsprites();
         player.deathanimation();
         player.loadQAsprites();
-
+        player.loadDodgeSprites();
 
         char* ch = (char*)malloc(sizeof(char)); // Allocate memory for char
 
