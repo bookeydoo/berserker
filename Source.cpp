@@ -569,6 +569,12 @@ public:
         mvFeR[7] = graphics.loadImage("enemyImages\\burning-ghoul-8R.png");
         mvFeR[8] = graphics.loadImage("enemyImages\\burning-ghoul-9R.png");
 
+        // image resize
+
+        for (int i = 0; i < 9; i++) {
+            graphics.resizeImage(mvFe[i], 200, 200);
+            graphics.resizeImage(mvFeR[i], 200, 200);
+        }
 
     }
     void checkstate() {
@@ -578,6 +584,7 @@ public:
     }
     void burnatk(Guts &player) {
         int i = 0;
+        int j = 0;
         if (alive && player.Xp < Xe) {
             framedirection = 0;
             Xe -= 30;
@@ -589,10 +596,20 @@ public:
         Xe += 30;
         graphics.drawImage(mvFeR[i], Xe, graphics.getWindowHeight() - 600, 1);
         i++;
+        }else if(alive && player.Xp == Xe ) {                //  does damage
+           
+            player.hp -- ;
+            graphics.drawImage(player.Hframes[j], player.Xp -=50 , player.Yp,0);
+            j++;
+
+
         }
 
         if (i == 8) {
             i = 0;
+        }
+        if (j == 3) {
+            j = 0;
         }
     }
 
