@@ -252,7 +252,7 @@ public:
 
         if (_kbhit() == 1) {
             int input = _getch();
-            globalpointer = &input;
+            globalpointer = &A1;
             switch (input) {
             case 'D':
             case 'd':
@@ -613,14 +613,14 @@ public:
     void burnatk(Guts& player) {
         int i = 0;
         int j = 0;
-        if (alive && player.Xp + 30 < Xe) {
+        if (alive == true && player.Xp + 30 < Xe) {
             framedirection = 0;
             Xe -= 30;
             graphics.drawImage(mvFe[i], Xe, graphics.getWindowHeight() - 400, 1);
             i++;
 
         }
-        else if (alive && player.Xp + 30 > Xe) {
+        else if (alive == true && player.Xp + 30 > Xe) {
             framedirection = 0;
             Xe += 30;
             graphics.drawImage(mvFeR[i], Xe, graphics.getWindowHeight() - 400, 1);
@@ -635,6 +635,7 @@ public:
         }
         if (hp == 0) {
             Ye = 2 * h;
+            alive = 0;
         }
     }
     void checkstate() {
@@ -716,26 +717,78 @@ void waitForTime(int start)
     }
 }
 void hitlogic(Guts& player, burn& firenigga, int* frame) {
-    if ((player.Xp)  == (firenigga.Xe + 100)) {
+    if ((player.Xp == firenigga.Xe||
+           player.Xp == firenigga.Xe + 1  || player.Xp == firenigga.Xe + 2   || player.Xp == firenigga.Xe + 3
+        || player.Xp == firenigga.Xe + 4  || player.Xp == firenigga.Xe + 5   || player.Xp == firenigga.Xe + 6 
+        || player.Xp == firenigga.Xe + 7  || player.Xp == firenigga.Xe + 8   || player.Xp == firenigga.Xe + 9 
+        || player.Xp == firenigga.Xe + 10 || player.Xp == firenigga.Xe + 11  || player.Xp == firenigga.Xe + 12 
+        || player.Xp == firenigga.Xe + 13 || player.Xp == firenigga.Xe + 14  || player.Xp == firenigga.Xe + 15
+        || player.Xp == firenigga.Xe + 16 || player.Xp == firenigga.Xe + 17  || player.Xp == firenigga.Xe + 18
+        || player.Xp == firenigga.Xe + 19 || player.Xp == firenigga.Xe + 20  || player.Xp == firenigga.Xe + 21
+        || player.Xp == firenigga.Xe + 22 || player.Xp == firenigga.Xe + 23  || player.Xp == firenigga.Xe + 24
+        || player.Xp == firenigga.Xe + 25 || player.Xp == firenigga.Xe + 26  || player.Xp == firenigga.Xe + 27
+        || player.Xp == firenigga.Xe + 28 || player.Xp == firenigga.Xe + 29  || player.Xp == firenigga.Xe + 30
+        || player.Xp == firenigga.Xe + 31 || player.Xp == firenigga.Xe + 32  || player.Xp == firenigga.Xe + 33
+        || player.Xp == firenigga.Xe + 34 || player.Xp == firenigga.Xe + 35  || player.Xp == firenigga.Xe + 36
+        || player.Xp == firenigga.Xe + 37 || player.Xp == firenigga.Xe + 38  || player.Xp == firenigga.Xe + 39
+        || player.Xp == firenigga.Xe + 40 || player.Xp == firenigga.Xe + 41  || player.Xp == firenigga.Xe + 42
+        || player.Xp == firenigga.Xe + 43 || player.Xp == firenigga.Xe + 44  || player.Xp == firenigga.Xe + 45
+        || player.Xp == firenigga.Xe + 46 || player.Xp == firenigga.Xe + 47  || player.Xp == firenigga.Xe + 48
+        || player.Xp == firenigga.Xe + 49 || player.Xp == firenigga.Xe + 50  || player.Xp == firenigga.Xe + 51
+        || player.Xp == firenigga.Xe + 52 || player.Xp == firenigga.Xe + 53  || player.Xp == firenigga.Xe + 54
+        || player.Xp == firenigga.Xe + 55 || player.Xp == firenigga.Xe + 56  || player.Xp == firenigga.Xe + 57
+        || player.Xp == firenigga.Xe + 58 || player.Xp == firenigga.Xe + 59  || player.Xp == firenigga.Xe + 60
+        || player.Xp == firenigga.Xe + 61 || player.Xp == firenigga.Xe + 62  || player.Xp == firenigga.Xe + 63
+        || player.Xp == firenigga.Xe + 64 || player.Xp == firenigga.Xe + 65  || player.Xp == firenigga.Xe + 66
+        || player.Xp == firenigga.Xe + 67 || player.Xp == firenigga.Xe + 68  || player.Xp == firenigga.Xe + 69
+        || player.Xp == firenigga.Xe + 70 || player.Xp == firenigga.Xe + 71  || player.Xp == firenigga.Xe + 72
+        || player.Xp == firenigga.Xe + 73 || player.Xp == firenigga.Xe + 74  || player.Xp == firenigga.Xe + 75
+        || player.Xp == firenigga.Xe + 76 || player.Xp == firenigga.Xe + 77  || player.Xp == firenigga.Xe + 78
+        || player.Xp == firenigga.Xe + 79 || player.Xp == firenigga.Xe + 80  || player.Xp == firenigga.Xe + 81
+        || player.Xp == firenigga.Xe + 82 || player.Xp == firenigga.Xe + 83  || player.Xp == firenigga.Xe + 84
+        || player.Xp == firenigga.Xe + 85 || player.Xp == firenigga.Xe + 86  || player.Xp == firenigga.Xe + 88 || player.Xp == firenigga.Xe + 89
+        || player.Xp == firenigga.Xe + 90 || player.Xp == firenigga.Xe +  91 
+        || player.Xp == firenigga.Xe + 92 || player.Xp == firenigga.Xe + 93 || player.Xp == firenigga.Xe + 94 || player.Xp == firenigga.Xe + 95 || player.Xp == firenigga.Xe + 96
+        || player.Xp == firenigga.Xe + 97 || player.Xp == firenigga.Xe + 98 || player.Xp == firenigga.Xe + 99 
+        || player.Xp == firenigga.Xe + 100|| player.Xp == firenigga.Xe + 101 || player.Xp == firenigga.Xe + 102 || player.Xp == firenigga.Xe + 103
+        || player.Xp == firenigga.Xe + 104 
+|| player.Xp == firenigga.Xe + 105 
+|| player.Xp == firenigga.Xe + 106 || player.Xp == firenigga.Xe + 107 
+        || player.Xp == firenigga.Xe + 108
+        || player.Xp == firenigga.Xe + 109 
+        || player.Xp == firenigga.Xe + 110 
+        || player.Xp == firenigga.Xe + 111 
+        || player.Xp == firenigga.Xe + 112 
+        || player.Xp == firenigga.Xe + 113 
+        || player.Xp == firenigga.Xe + 114 
+        || player.Xp == firenigga.Xe + 115 
+        || player.Xp == firenigga.Xe + 116 
+        || player.Xp == firenigga.Xe + 117 
+        || player.Xp == firenigga.Xe + 118 
+        || player.Xp == firenigga.Xe + 119 
+        || player.Xp == firenigga.Xe + 120 
+        || player.Xp == firenigga.Xe + 121 
+        || player.Xp == firenigga.Xe + 123 
+        || player.Xp == firenigga.Xe + 124 
+        || player.Xp == firenigga.Xe + 125
+     
+        )
 
-        if (firenigga.alive ) {
-            if((*globalpointer==player.DSF[4] || *globalpointer==player.DSF[5]) ) {
+
+                                                                             
+        && *globalpointer == 3) {
                 firenigga.alive = 0;
                 firenigga.checkstate();
             }
-            else if (*globalpointer == player.QAF[4]) {
-                firenigga.alive = 0;
-                firenigga.checkstate();
-            }else if(*globalpointer== player.RunAF[1] || *globalpointer== player.RunAF[2] ) {
+            else if (*globalpointer == player.RunAF[1] || *globalpointer == player.RunAF[2]) {
                 firenigga.alive = 0;
                 firenigga.checkstate();
             }
-            
-        }
+
+        
         return;
-    }
+    
 }
-
 
 
 void Mainmenu() {
