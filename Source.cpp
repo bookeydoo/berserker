@@ -6,6 +6,7 @@
 #pragma comment(lib,"CC212SGL.lib")
 #include<time.h>
 #include<windows.h>
+
 #include <math.h>
 CC212SGL graphics;
 int terrain;
@@ -15,8 +16,19 @@ bool hitflag = 0;
 //framelimit =70
 int FramesPerSec = 30;
 
-int state = 0;
-int* globalpointer = nullptr;
+
+
+int state0 = 0;
+int state1 = 0;  //for troubleshooting ask waleed why
+int state2 = 0;
+int state3 = 0; 
+int state4 = 0;
+int* QApointer = &state0;
+int* QA_Rpointer2 = &state1;
+int* RUNApointer3 = &state2;
+int* DSFpointer4 = &state3;
+int* DSF_Rpointer5 = &state4;
+
 
 
 class Guts
@@ -99,7 +111,7 @@ public:
 
         int death = graphics.loadImage("Generalimages\\death.png");
         graphics.drawImage(death, w - 400, h - 400, RGB(0, 0, 0));
-        Sleep(300);
+        Sleep(3000);
 
         graphics.resizeImage(death, w, h);
         graphics.setDrawingColor(COLORS::RED);
@@ -252,7 +264,11 @@ public:
 
         if (_kbhit() == 1) {
             int input = _getch();
-            globalpointer = &A1;
+            QApointer = &A1;
+            QA_Rpointer2 = &A2;
+            RUNApointer3 = &A3;
+            DSFpointer4 = &A4;
+            DSF_Rpointer5 = &A5;
             switch (input) {
             case 'D':
             case 'd':
@@ -276,16 +292,16 @@ public:
                 if (framedirection == 1) {
                     if (A1 == 3) {
                         {
-                            
+
                             graphics.drawImage(QAF[3], Xp += 40, Yp + 80, GREEN);
-                            
+
                             A1++;
-                            
+
                         }
                     }
                     else {
                         graphics.drawImage(QAF[A1], Xp += 40, Yp + 140, GREEN);
-                        
+
                         A1++;
                     }
                 }
@@ -298,9 +314,9 @@ public:
                 else {
 
                     graphics.drawImage(QAF_R[A2], Xp -= 40, Yp + 140, GREEN);
-                    
+
                     A2++;
-                    
+
                 }break;
 
 
@@ -308,7 +324,7 @@ public:
                 if (framedirection == 1) {
                     Xp -= 200;
                     graphics.drawImage(dodge, Xp, Yp + 100, 1);
-                    
+
                 }
                 else if (framedirection == 0) {
                     Xp += 200;
@@ -321,25 +337,25 @@ public:
                 if (framedirection == 1) {
                     graphics.drawImage(RunAF[A3], Xp += 20, Yp + 50, 1);
                     A3++;
-                   
+
                 }
                 else {
 
                     graphics.setFontSizeAndBoldness(50, 90);
                     graphics.drawText(Xp, Yp - 100, "you can only use this while running forward");
                     graphics.drawImage(idleF_R[i], Xp, Yp + 140, 1);
-                   
+
                 }
             case 'S':
             case 's':
                 if (framedirection == 1) {
                     graphics.drawImage(DSF[A4], Xp += 20, Yp + 50, 1);
                     A4++;
-                   
+
                 }
                 else if (framedirection == 0) {
                     graphics.drawImage(DSF_R[A5], Xp -= 20, Yp + 50, 1);
-                   
+
                 }
             }
 
@@ -357,7 +373,7 @@ public:
             }
 
         }
-        
+
 
         hitflag = 0;
         if (i == 4) {
@@ -608,11 +624,11 @@ public:
             graphics.resizeImage(mvFeR[i], 200, 200);
         }
 
-   }
+    }
 
     void burnatk(Guts& player) {
-        int i = 0;
-        int j = 0;
+        static int i = 0;
+         static int j = 0;
         if (alive == true && player.Xp + 30 < Xe) {
             framedirection = 0;
             Xe -= 30;
@@ -639,8 +655,8 @@ public:
         }
     }
     void checkstate() {
-        if (!alive ) {
-            graphics.drawImage(mvFe[0], Xe, graphics.getWindowHeight() *2, 1);
+        if (!alive) {
+            graphics.drawImage(mvFe[0], Xe, graphics.getWindowHeight() * 2, 1);
         }
         return;
     }
@@ -699,7 +715,7 @@ void firstlevel(Guts& player) {
         graphics.drawText(w / 2, l / 2 - 300, "first stage");
     }
 
-    Sleep(200);
+    Sleep(150);
 
 
 }
@@ -717,19 +733,23 @@ void waitForTime(int start)
     }
 }
 void hitlogic(Guts& player, burn& firenigga, int* frame) {
-    if (player.Xp <= firenigga.Xe && (abs((firenigga.Xe - player.Xp)) < 260)
-          && *globalpointer == 3) {
-                firenigga.alive = 0;
-                firenigga.checkstate();
-            }
-            else if (*globalpointer == player.RunAF[1] || *globalpointer == player.RunAF[2]) {
-                firenigga.alive = 0;
-                firenigga.checkstate();
-            }
+    if (  (abs((firenigga.Xe - player.Xp)) < 260)&& *QApointer == 3) {
+        firenigga.alive = 0;
+        firenigga.checkstate();
+    }
+    else if (*RUNApointer3 == 1 &&(abs(firenigga.Xe)-player.Xp)<260 || *RUNApointer3 == 2 && (abs((firenigga.Xe - player.Xp)) < 260)) {
+        firenigga.alive = 0;
+        firenigga.checkstate();
+    }
+    else if(*DSFpointer4 == 4 && (abs((firenigga.Xe - player.Xp)) < 260) || *DSFpointer4 == 5 && (abs((firenigga.Xe - player.Xp)) < 260) || *DSFpointer4 == 3 && (abs((firenigga.Xe - player.Xp)) < 260) ||(*DSFpointer4 == 6 && (abs((firenigga.Xe - player.Xp)) < 260))){
+        firenigga.alive = 0;
+        firenigga.checkstate();
+    }
+    else 
 
-        
-        return;
-    
+
+    return;
+
 }
 
 
@@ -803,10 +823,10 @@ int main() {
         player.back2start();
 
         
-        
+
         player.movementF();
         firenigga.burnatk(player);
-        hitlogic(player, firenigga, globalpointer);
+        hitlogic(player, firenigga, QApointer);
         firenigga.checkstate();
 
         graphics.endDraw();
