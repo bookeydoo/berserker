@@ -11,16 +11,17 @@ CC212SGL graphics;
 int terrain;
 #define _CRT_SECURE_NO_WARNINGS
 
+bool hitflag = 0;
 //framelimit =70
-int FramesPerSec = 60;
+int FramesPerSec = 30;
 
 int state = 0;
-
 
 class Guts
 {
 
 public:
+
     int* RunAF;
     int hp, stagecount;//stagecount is self explantory
     bool winflag;
@@ -37,7 +38,6 @@ public:
     int dodgeR = 0;
     int* idleF;
     int* idleF_R;
-    int* jump;
 
     Guts() {
         w = graphics.getWindowWidth();
@@ -49,9 +49,9 @@ public:
         Yp = h - 480;
         mvF_R = nullptr;
         RunAF = nullptr;
+        hitflag = 0;
         hp = 3;
         alive = 1;
-        jump = nullptr;
     }
     Guts(int xp, int yp) {
         framedirection = 1; //1 is right
@@ -61,7 +61,6 @@ public:
     }
     ~Guts() {
         delete[] mvF, DSF, mvF_R, DSF_R, QAF, Hframes, Hframes_R, idleF, idleF_R;
-        delete[] jump,QAF_R,RunAF,mvF_R;
     }
     //loading functions except for goodending and mainmenu
     void goodending() {
@@ -106,7 +105,7 @@ public:
         graphics.drawText(Xp + 600, Yp - 300, "You have died");
     }
 
-    void checkstate(bool alive) {
+    void checkstate() {
         if (alive != true)
             deathanimation();
 
@@ -241,12 +240,12 @@ public:
         static int R = 0;
         static int i = 0;
         static int z = 0;
-        static int jmp = 0;
         static int A1 = 0;
         static int A2 = 0;
         static int A3 = 0;
         static int A4 = 0;
         static int A5 = 0;
+
 
 
         if (_kbhit() == 1) {
@@ -296,7 +295,6 @@ public:
                     A2++;
                 }break;
 
-                
 
             case VK_SPACE:
                 if (framedirection == 1) {
@@ -336,16 +334,19 @@ public:
         }
 
         else {
-            if (framedirection == 1) {
+
+            if (framedirection == 1 && hitflag == 0) {
                 graphics.drawImage(idleF[i], Xp, Yp + 140, 1);
                 i++;
             }
-            else if (framedirection == 0) {
+            else if (framedirection == 0 && hitflag == 0) {
                 graphics.drawImage(idleF_R[0], Xp, Yp + 140, 1);
 
             }
+
         }
 
+        hitflag = 0;
         if (i == 4) {
             i = 0;
         }
@@ -372,8 +373,19 @@ public:
         }
         if (A5 == 8) {
             A5 = 0;
+
         }
     }
+        void  hitlogic() {
+            static int z5 = 0;
+            if ((hitflag == 1)) {
+                graphics.drawImage(Hframes[z5], Xp -= 30, Yp + 140, 1);
+
+            }if (z5 == 4) {
+                z5 = 0;
+            }
+        }
+    
 
 
 
@@ -545,11 +557,13 @@ class burn {
 public:
     bool alive = true;
     bool framedirection = 0;
-    int Xe = (graphics.getWindowWidth() - 100), Ye;
-    int speed;
+    int Xe = (graphics.getWindowWidth() - 100), Ye= graphics.getWindowHeight() - 400;
+    
     int hp = 1;
+
+    int h = graphics.getWindowHeight();
     int* mvFeR;//reverse
-    int* mvFe;// movement frames for enemies
+    int* mvFe = nullptr;// movement frames for enemies
     void BurnWalk() {
 
         mvFe = new int[9];
@@ -562,20 +576,17 @@ public:
         mvFe[6] = graphics.loadImage("enemyImages\\burning-ghoul-7.png");
         mvFe[7] = graphics.loadImage("enemyImages\\burning-ghoul-8.png");
         mvFe[8] = graphics.loadImage("enemyImages\\burning-ghoul-9.png");
-       
-
-
 
         mvFeR = new int[9];
-        mvFeR[0] = graphics.loadImage("enemyImages\\burning-ghoul1R.png");
-        mvFeR[1] = graphics.loadImage("enemyImages\\burning-ghoul2R.png");
-        mvFeR[2] = graphics.loadImage("enemyImages\\burning-ghoul3R.png");
-        mvFeR[3] = graphics.loadImage("enemyImages\\burning-ghoul4R.png");
-        mvFeR[4] = graphics.loadImage("enemyImages\\burning-ghoul5R.png");
-        mvFeR[5] = graphics.loadImage("enemyImages\\burning-ghoul6R.png");
-        mvFeR[6] = graphics.loadImage("enemyImages\\burning-ghoul7R.png");
-        mvFeR[7] = graphics.loadImage("enemyImages\\burning-ghoul8R.png");
-        mvFeR[8] = graphics.loadImage("enemyImages\\burning-ghoul9R.png");
+        mvFeR[0] = graphics.loadImage("enemyImages\\burning-ghoul-1R.png");
+        mvFeR[1] = graphics.loadImage("enemyImages\\burning-ghoul-2R.png");
+        mvFeR[2] = graphics.loadImage("enemyImages\\burning-ghoul-3R.png");
+        mvFeR[3] = graphics.loadImage("enemyImages\\burning-ghoul-4R.png");
+        mvFeR[4] = graphics.loadImage("enemyImages\\burning-ghoul-5R.png");
+        mvFeR[5] = graphics.loadImage("enemyImages\\burning-ghoul-6R.png");
+        mvFeR[6] = graphics.loadImage("enemyImages\\burning-ghoul-7R.png");
+        mvFeR[7] = graphics.loadImage("enemyImages\\burning-ghoul-8R.png");
+        mvFeR[8] = graphics.loadImage("enemyImages\\burning-ghoul-9R.png");
 
         // image resize
 
@@ -586,34 +597,24 @@ public:
 
     }
     void checkstate() {
-        if (hp<0) {
+        if (!hp) {
             alive = false;
         }
     }
-    void burnatk(Guts& player) {
+    void burnatk(Guts &player) {
         int i = 0;
         int j = 0;
-        if (alive && player.Xp < Xe) {
-            
+        if (alive && player.Xp+30 < Xe) {
+            framedirection = 0;
             Xe -= 30;
-            graphics.drawImage(mvFe[i], Xe, graphics.getWindowHeight() -300, 1);
+            graphics.drawImage(mvFe[i], Xe, graphics.getWindowHeight() - 400, 1);
             i++;
 
-        }else if (alive && player.Xp > Xe){
+        }else if (alive && player.Xp+30 > Xe){
         framedirection = 0;
         Xe += 30;
-        graphics.drawImage(mvFeR[i], Xe, graphics.getWindowHeight() - 600, 1);
+        graphics.drawImage(mvFeR[i], Xe, graphics.getWindowHeight() - 400, 1);
         i++;
-        }else if(alive && player.Xp == Xe ) {                //  does damage
-           
-            player.hp -- ;
-            graphics.drawImage(player.Hframes[j], player.Xp -=50 , player.Yp,0);
-            j++;
-
-
-        }
-        if (!alive) {
-            graphics.drawImage(mvFe[1],Xe,graphics.getWindowHeight()-1000,0);
         }
 
         if (i == 8) {
@@ -621,6 +622,9 @@ public:
         }
         if (j == 3) {
             j = 0;
+        }
+        if (hp == 0) {
+            Ye  = 2*h;
         }
     }
 
@@ -632,7 +636,7 @@ class Zodd {
 public:
     bool alive;
     bool framedirection;
-    int Xe, Ye;
+    int Xe=0, Ye=0;
     int speed;
     int hp;
     int* zoddmvFe; // movement frames for enemies
@@ -682,17 +686,30 @@ void firstlevel(Guts& player) {
 
 
 }
+
+
+
 void waitForTime(int start)
 {
     while (1)
     {
         float t = (clock() / (float)CLOCKS_PER_SEC * 1000.0f) - (start / (float)CLOCKS_PER_SEC * 1000.0f);
-        if (t > 1.0f / (FramesPerSec * 1000.0f)) {
+        if (t > 1.0f / (30 * 1000.0f)) {
             break;
         }
     }
 }
-
+bool hitlogic(Guts &player,burn &firenigga) {
+    if ((player.Xp)+50 == (firenigga.Xe)) {
+        hitflag = 1;
+    }
+   
+    else {
+        hitflag = 0;
+    }
+    player.hp--;
+    return 1;
+}
 
 
 
@@ -733,7 +750,7 @@ int main() {
     Guts player;
 
     player.hp = 3;
-
+    bool hitflag=0;
     Mainmenu();
 
     player.loadidleF();
@@ -760,16 +777,20 @@ int main() {
     }
 
     while (1) {
-
+        player.checkstate();
         graphics.beginDraw();
         firstlevel(player);
         player.back2start();
-        
-        player.movementF();
-        firenigga.burnatk(player);
 
+        hitlogic(player, firenigga);
+
+        player.movementF();
+       firenigga.burnatk(player);
+      player.hitlogic();
+       
+       
         graphics.endDraw();
-        waitForTime(70);
+        waitForTime(30);
     }
 
     free(ch);  // Free the allocated memory
