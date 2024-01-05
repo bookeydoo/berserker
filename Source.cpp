@@ -627,27 +627,32 @@ public:
     }
 
     void burnatk(Guts& player) {
-        static int i = 0;
-         static int j = 0;
-        if (alive == true && player.Xp + 30 < Xe) {
+        static int  FRAMES = 0;
+        static int damageg = 0;
+        if (alive == true && player.Xp + 140 < Xe) {
             framedirection = 0;
             Xe -= 30;
-            graphics.drawImage(mvFe[i], Xe, graphics.getWindowHeight() - 400, 1);
-            i++;
+            graphics.drawImage(mvFe[FRAMES], Xe, graphics.getWindowHeight() - 400, 1);
+            FRAMES++;
 
         }
-        else if (alive == true && player.Xp + 30 > Xe) {
+        else if (alive == true && player.Xp + 140 > Xe) {
             framedirection = 0;
             Xe += 30;
-            graphics.drawImage(mvFeR[i], Xe, graphics.getWindowHeight() - 400, 1);
-            i++;
+            graphics.drawImage(mvFeR[FRAMES], Xe, graphics.getWindowHeight() - 400, 1);
+            FRAMES++;
+        }
+        if (alive == true && abs((Xe - player.Xp)) < 150) {
+            graphics.drawImage(player.Hframes[damageg], player.Xp -= 30, player.Yp + 140, 1);
+            player.hp--;
+            damageg++;
         }
 
-        if (i == 8) {
-            i = 0;
+        if (FRAMES == 8) {
+            FRAMES = 0;
         }
-        if (j == 3) {
-            j = 0;
+        if (damageg == 3) {
+            damageg = 0;
         }
         if (hp == 0) {
             Ye = 2 * h;
@@ -663,7 +668,6 @@ public:
 
 
 };
-
 
 class Zodd {
 public:
