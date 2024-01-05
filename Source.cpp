@@ -697,33 +697,54 @@ public:
 
 
 
+
+
 void firstlevel(Guts& player) {
     int w = graphics.getWindowWidth();
     int l = graphics.getWindowHeight();
-    int bg = graphics.loadImage("Generalimages\\gothiclevelbg.png");
-    graphics.resizeImage(bg, 1700, 700);
+    int bg1 = graphics.loadImage("Generalimages\\gothiclevelbg.png");
+    graphics.resizeImage(bg1, 1700, 700);
     int terrainpart = graphics.loadImage("Generalimages\\gothiclevelterrain.png");
     graphics.resizeImage(terrainpart, w / 2, 200);
     int terrainpart2 = graphics.loadImage("Generalimages\\gothiclevelterrain2.png");
     graphics.resizeImage(terrainpart2, w / 2, 200);
+    int bg2 = graphics.loadImage("Generalimages\\evilforest.jpg");
+    graphics.resizeImage(bg2, 1700, 700);
+    int bg3 = graphics.loadImage("Generalimages\\medieveltown.png");
+    graphics.resizeImage(bg3, 1700, 700);
+    
 
-
-
-
-    graphics.drawImage(bg, 0, 0, graphics.generateFromRGB(0, 0, 0));
-    graphics.drawImage(terrainpart, w / 2, l - 200, graphics.generateFromRGB(0, 0, 0));
-    graphics.drawImage(terrainpart2, 0, l - 200, graphics.generateFromRGB(0, 0, 0));
 
     if (player.stagecount == 1) {
         graphics.setFontSizeAndBoldness(90, 50);
         graphics.drawText(w / 2, l / 2 - 300, "first stage");
-    }
+        graphics.drawImage(bg1, 0, 0, graphics.generateFromRGB(0, 0, 0));
+        graphics.drawImage(terrainpart, w / 2, l - 200, graphics.generateFromRGB(0, 0, 0));
+        graphics.drawImage(terrainpart2, 0, l - 200, graphics.generateFromRGB(0, 0, 0));
 
+
+    }
+    else if (player.stagecount == 2) {
+        graphics.drawImage(bg2, 0, 0, graphics.generateFromRGB(0, 0, 0));
+        graphics.drawImage(terrainpart, w / 2, l - 200, graphics.generateFromRGB(0, 0, 0));
+        graphics.drawImage(terrainpart2, 0, l - 200, graphics.generateFromRGB(0, 0, 0));
+
+    }
+    else if (player.stagecount == 3) {
+        graphics.drawImage(bg3, 0, 0, graphics.generateFromRGB(0, 0, 0));
+        graphics.drawImage(terrainpart, w / 2, l - 200, graphics.generateFromRGB(0, 0, 0));
+        graphics.drawImage(terrainpart2, 0, l - 200, graphics.generateFromRGB(0, 0, 0));
+    }
+    else {
+        if (player.stagecount > 3) {
+            player.stagecount--;
+        }
+    }
+    
     Sleep(150);
 
 
 }
-
 
 
 void waitForTime(int start)
