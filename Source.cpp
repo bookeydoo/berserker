@@ -21,7 +21,7 @@ int FramesPerSec = 30;
 int state0 = 0;
 int state1 = 0;  //for troubleshooting ask waleed why
 int state2 = 0;
-int state3 = 0; 
+int state3 = 0;
 int state4 = 0;
 int* QApointer = &state0;
 int* QA_Rpointer2 = &state1;
@@ -35,7 +35,7 @@ class Guts
 {
 
 public:
-
+    int enemycount = 4;
     int* RunAF;
     int hp, stagecount;//stagecount is self explantory
     bool winflag;
@@ -64,7 +64,7 @@ public:
         mvF_R = nullptr;
         RunAF = nullptr;
         hitflag = 0;
-        hp = 3;
+        hp = 5;
         alive = 1;
     }
     Guts(int xp, int yp) {
@@ -111,7 +111,7 @@ public:
 
         int death = graphics.loadImage("Generalimages\\death.png");
         graphics.drawImage(death, w - 400, h - 400, RGB(0, 0, 0));
-        Sleep(3000);
+        
 
         graphics.resizeImage(death, w, h);
         graphics.setDrawingColor(COLORS::RED);
@@ -422,10 +422,10 @@ public:
 
         if (Xp >= w) {
 
-            Xp = -10;
+            Xp = -265;
             stagecount++;
         }
-        if (Xp < -10) {
+        if (Xp < -265) {
 
             Xp = -10;
 
@@ -448,112 +448,114 @@ public:
 
     //}
 
+////};
+//
+//
+//class monk {
+//public:
+//    bool alive;
+//    bool framedirection;
+//    int Xe, Ye;
+//    int speed;
+//    int hp;
+//    int* monkwmF;// monk walk 
+//    int* monkjmF;// jump
+//    int* monkkmF;// kick
+//    int* monkhmF;// hurt
+//    int* monkfkmF;// flyingkick
+//    int* monkpmF;// punch
+//    void monkmF() {
+//        monkwmF = new int[6];
+//        monkwmF[0] = graphics.loadImage("enemyImages\\monkwalk1.png");
+//        monkwmF[1] = graphics.loadImage("enemyImages\\monkwalk2.png");
+//        monkwmF[2] = graphics.loadImage("enemyImages\\monkwalk3.png");
+//        monkwmF[3] = graphics.loadImage("enemyImages\\monkwalk4.png");
+//        monkwmF[4] = graphics.loadImage("enemyImages\\monkwalk5.png");
+//        monkwmF[5] = graphics.loadImage("enemyImages\\monkwalk6.png");
+//    }
+//
+//    void monkpjmF() {
+//        monkjmF = new int[2];
+//        monkjmF[0] = graphics.loadImage("enemyImages\\jump1.png");
+//        monkjmF[1] = graphics.loadImage("enemyImages\\jump2.png");
+//
+//    }
+//
+//    void monmF() {
+//        monkkmF = new int[6];
+//        monkkmF[0] = graphics.loadImage("enemyImages\\monkkick1.png");
+//        monkkmF[1] = graphics.loadImage("enemyImages\\kick2.png");
+//        monkkmF[2] = graphics.loadImage("enemyImages\\kick3.png");
+//        monkkmF[3] = graphics.loadImage("enemyImages\\kick4.png");
+//        monkkmF[4] = graphics.loadImage("enemyImages\\kick5.png");
+//
+//    }
+//
+//
+//    void monktmF() {
+//        monkhmF = new int[2];
+//        monkhmF[0] = graphics.loadImage("enemyImages\\monkhurt1.png");
+//        monkhmF[1] = graphics.loadImage("enemyImages\\monkhurt2.png");
+//
+//
+//    }
+//    void monkzkmF() {
+//        monkfkmF = new int[2];
+//        monkfkmF[0] = graphics.loadImage("enemyImages\\monkflying-kick1.png");
+//        monkfkmF[1] = graphics.loadImage("enemyImages\\monkflying-kick2.png");
+//
+//    }
+//
+//    void monkfmF() {
+//        monkpmF = new int[6];
+//        monkpmF[0] = graphics.loadImage("enemyImages\\monkpunch1.png");
+//        monkpmF[1] = graphics.loadImage("enemyImages\\monkpunch2.png");
+//        monkpmF[2] = graphics.loadImage("enemyImages\\monkpunch3.png");
+//        monkpmF[3] = graphics.loadImage("enemyImages\\monkpunch4.png");
+//        monkpmF[4] = graphics.loadImage("enemyImages\\monkpunch5.png");
+//        monkpmF[5] = graphics.loadImage("enemyImages\\monkpunch6.png");
+//    }
+//
+//
 //};
-
-
-class monk {
-public:
-    bool alive;
-    bool framedirection;
-    int Xe, Ye;
-    int speed;
-    int hp;
-    int* monkwmF;// monk walk 
-    int* monkjmF;// jump
-    int* monkkmF;// kick
-    int* monkhmF;// hurt
-    int* monkfkmF;// flyingkick
-    int* monkpmF;// punch
-    void monkmF() {
-        monkwmF = new int[6];
-        monkwmF[0] = graphics.loadImage("enemyImages\\monkwalk1.png");
-        monkwmF[1] = graphics.loadImage("enemyImages\\monkwalk2.png");
-        monkwmF[2] = graphics.loadImage("enemyImages\\monkwalk3.png");
-        monkwmF[3] = graphics.loadImage("enemyImages\\monkwalk4.png");
-        monkwmF[4] = graphics.loadImage("enemyImages\\monkwalk5.png");
-        monkwmF[5] = graphics.loadImage("enemyImages\\monkwalk6.png");
-    }
-
-    void monkpjmF() {
-        monkjmF = new int[2];
-        monkjmF[0] = graphics.loadImage("enemyImages\\jump1.png");
-        monkjmF[1] = graphics.loadImage("enemyImages\\jump2.png");
-
-    }
-
-    void monmF() {
-        monkkmF = new int[6];
-        monkkmF[0] = graphics.loadImage("enemyImages\\monkkick1.png");
-        monkkmF[1] = graphics.loadImage("enemyImages\\kick2.png");
-        monkkmF[2] = graphics.loadImage("enemyImages\\kick3.png");
-        monkkmF[3] = graphics.loadImage("enemyImages\\kick4.png");
-        monkkmF[4] = graphics.loadImage("enemyImages\\kick5.png");
-
-    }
-
-
-    void monktmF() {
-        monkhmF = new int[2];
-        monkhmF[0] = graphics.loadImage("enemyImages\\monkhurt1.png");
-        monkhmF[1] = graphics.loadImage("enemyImages\\monkhurt2.png");
-
-
-    }
-    void monkzkmF() {
-        monkfkmF = new int[2];
-        monkfkmF[0] = graphics.loadImage("enemyImages\\monkflying-kick1.png");
-        monkfkmF[1] = graphics.loadImage("enemyImages\\monkflying-kick2.png");
-
-    }
-
-    void monkfmF() {
-        monkpmF = new int[6];
-        monkpmF[0] = graphics.loadImage("enemyImages\\monkpunch1.png");
-        monkpmF[1] = graphics.loadImage("enemyImages\\monkpunch2.png");
-        monkpmF[2] = graphics.loadImage("enemyImages\\monkpunch3.png");
-        monkpmF[3] = graphics.loadImage("enemyImages\\monkpunch4.png");
-        monkpmF[4] = graphics.loadImage("enemyImages\\monkpunch5.png");
-        monkpmF[5] = graphics.loadImage("enemyImages\\monkpunch6.png");
-    }
-
-
-};
-
-class wizard {
-public:
-    bool alive;
-    bool framedirection;
-    int Xe, Ye;
-    int speed;
-    int hp;
-    int* WizatFe;// attack 
-
-    void wizatck() {
-        WizatFe = new int[11];
-        WizatFe[0] = graphics.loadImage("enemyImages\\wizard-idle-1.png");
-        WizatFe[1] = graphics.loadImage("enemyImages\\wizardfire1.png");
-        WizatFe[2] = graphics.loadImage("enemyImages\\wizardfire2.png");
-        WizatFe[3] = graphics.loadImage("enemyImages\\wizardfire3.png");
-        WizatFe[4] = graphics.loadImage("enemyImages\\wizardfire4.png");
-        WizatFe[5] = graphics.loadImage("enemyImages\\wizardfire5.png");
-        WizatFe[6] = graphics.loadImage("enemyImages\\wizardfire6.png");
-        WizatFe[7] = graphics.loadImage("enemyImages\\wizardfire7.png");
-        WizatFe[8] = graphics.loadImage("enemyImages\\wizardfire8.png");
-        WizatFe[9] = graphics.loadImage("enemyImages\\wizardfire9.png");
-        WizatFe[10] = graphics.loadImage("enemyImages\\wizardfire10.png");
-    }
-
-};
+//
+//class wizard {
+//public:
+//    bool alive;
+//    bool framedirection;
+//    int Xe, Ye;
+//    int speed;
+//    int hp;
+//    int* WizatFe;// attack 
+//
+//    void wizatck() {
+//        WizatFe = new int[11];
+//        WizatFe[0] = graphics.loadImage("enemyImages\\wizard-idle-1.png");
+//        WizatFe[1] = graphics.loadImage("enemyImages\\wizardfire1.png");
+//        WizatFe[2] = graphics.loadImage("enemyImages\\wizardfire2.png");
+//        WizatFe[3] = graphics.loadImage("enemyImages\\wizardfire3.png");
+//        WizatFe[4] = graphics.loadImage("enemyImages\\wizardfire4.png");
+//        WizatFe[5] = graphics.loadImage("enemyImages\\wizardfire5.png");
+//        WizatFe[6] = graphics.loadImage("enemyImages\\wizardfire6.png");
+//        WizatFe[7] = graphics.loadImage("enemyImages\\wizardfire7.png");
+//        WizatFe[8] = graphics.loadImage("enemyImages\\wizardfire8.png");
+//        WizatFe[9] = graphics.loadImage("enemyImages\\wizardfire9.png");
+//        WizatFe[10] = graphics.loadImage("enemyImages\\wizardfire10.png");
+//    }
+//
+//};
 
 class wolf {
 public:
-    bool alive;
+    bool alive=1;
     bool framedirection;
-    int Xe, Ye;
-    int speed;
-    int hp;
-    int* WmvFe;// movement frames for enemies
-    int* WatFe;// attack 
+    int Xe=graphics.getWindowWidth()-100, Ye;
+    
+    int hp=2;
+    int* WmvFe=nullptr; // movement frames for enemies
+    int* WatFe=nullptr;// attack
+
+
     void wolfmove() {
 
         WmvFe = new int[7];
@@ -564,19 +566,57 @@ public:
         WmvFe[4] = graphics.loadImage("enemyImages\\wolfrun4.png");
         WmvFe[5] = graphics.loadImage("enemyImages\\wolfrun5.png");
         WmvFe[6] = graphics.loadImage("enemyImages\\wolfrun6.png");
-
-
-
-    }
-    void wolfatck() {
         WatFe = new int[3];
         WatFe[0] = graphics.loadImage("enemyImages\\wolfattack1.png");
         WatFe[1] = graphics.loadImage("enemyImages\\wolfattack2.png");
         WatFe[2] = graphics.loadImage("enemyImages\\wolfattack3.png");
 
-
+        
 
     }
+    void wolfatck(Guts& player) {
+
+
+
+        static int  movementframe = 0;
+        static int attackframe = 0;
+        static int damageg = 0;
+        if (alive == true && player.Xp + 140 < Xe) {
+            framedirection = 0;
+            Xe -= 30;
+            graphics.drawImage(WmvFe[movementframe], Xe, graphics.getWindowHeight() - 300, 1);
+            movementframe++;
+
+        }
+
+
+        if (alive == true && abs((Xe - player.Xp)) < 150) {
+            graphics.drawImage(WatFe[attackframe], Xe, graphics.getWindowHeight() - 400, 1);
+            graphics.drawImage(player.Hframes[damageg], player.Xp -= 30, player.Yp + 140, 1);
+            player.hp--;
+            damageg++;
+            attackframe++;
+        }
+
+        if (movementframe == 6) {
+            movementframe = 0;
+        }
+        if (damageg == 3) {
+            damageg = 0;
+        }
+        if (attackframe == 2) {
+            attackframe = 0;
+        }
+        if (hp == 0) {
+            graphics.drawImage(WmvFe[0], Xe, graphics.getWindowHeight() * 2, 1);
+            alive = 0;
+
+        }
+    }
+
+
+    
+    
 
 };
 
@@ -587,7 +627,6 @@ public:
     bool alive = true;
     bool framedirection = 0;
     int Xe = (graphics.getWindowWidth() - 100), Ye = graphics.getWindowHeight() - 400;
-
     int hp = 1;
 
     int h = graphics.getWindowHeight();
@@ -668,30 +707,30 @@ public:
 
 
 };
-
-class Zodd {
-public:
-    bool alive;
-    bool framedirection;
-    int Xe = 0, Ye = 0;
-    int speed;
-    int hp;
-    int* zoddmvFe; // movement frames for enemies
-    int* zoddatFe; // Attack frames for enemies
-    void Zoddmove() {
-
-        zoddmvFe = new int[4];
-        zoddmvFe[0] = graphics.loadImage("enemyImages\\zoddlanding.png");
-        zoddmvFe[1] = graphics.loadImage("enemyImages\\zoddintro1.png");
-        zoddmvFe[2] = graphics.loadImage("enemyImages\\zoddintro2.png");
-        zoddmvFe[3] = graphics.loadImage("enemyImages\\zodintro3.png");
-
-    }
-    void ZoddAtck() {
-        zoddatFe = new int[1];
-        zoddatFe[0] = graphics.loadImage("enemyImages\\zoddattack.png");
-    }
-};
+//
+//class Zodd {
+//public:
+//    bool alive;
+//    bool framedirection;
+//    int Xe = 0, Ye = 0;
+//    int speed;
+//    int hp;
+//    int* zoddmvFe; // movement frames for enemies
+//    int* zoddatFe; // Attack frames for enemies
+//    void Zoddmove() {
+//
+//        zoddmvFe = new int[4];
+//        zoddmvFe[0] = graphics.loadImage("enemyImages\\zoddlanding.png");
+//        zoddmvFe[1] = graphics.loadImage("enemyImages\\zoddintro1.png");
+//        zoddmvFe[2] = graphics.loadImage("enemyImages\\zoddintro2.png");
+//        zoddmvFe[3] = graphics.loadImage("enemyImages\\zodintro3.png");
+//
+//    }
+//    void ZoddAtck() {
+//        zoddatFe = new int[1];
+//        zoddatFe[0] = graphics.loadImage("enemyImages\\zoddattack.png");
+//    }
+//};
 
 
 
@@ -712,7 +751,7 @@ void firstlevel(Guts& player) {
     graphics.resizeImage(bg2, 1700, 700);
     int bg3 = graphics.loadImage("Generalimages\\medieveltown.png");
     graphics.resizeImage(bg3, 1700, 700);
-    
+
 
 
     if (player.stagecount == 1) {
@@ -734,14 +773,15 @@ void firstlevel(Guts& player) {
         graphics.drawImage(bg3, 0, 0, graphics.generateFromRGB(0, 0, 0));
         graphics.drawImage(terrainpart, w / 2, l - 200, graphics.generateFromRGB(0, 0, 0));
         graphics.drawImage(terrainpart2, 0, l - 200, graphics.generateFromRGB(0, 0, 0));
+        
     }
     else {
         if (player.stagecount > 3) {
-            player.stagecount--;
+            player.goodending();
         }
     }
-    
-    Sleep(150);
+
+    Sleep(70);
 
 
 }
@@ -758,22 +798,22 @@ void waitForTime(int start)
     }
 }
 void hitlogic(Guts& player, burn& firenigga, int* frame) {
-    if (  (abs((firenigga.Xe - player.Xp)) < 260)&& *QApointer == 3) {
-        firenigga.alive = 0;
+    if ((abs((firenigga.Xe - player.Xp)) < 260) && *QApointer == 3) {
+        firenigga.hp--;
         firenigga.checkstate();
     }
-    else if (*RUNApointer3 == 1 &&(abs(firenigga.Xe)-player.Xp)<260 || *RUNApointer3 == 2 && (abs((firenigga.Xe - player.Xp)) < 260)) {
-        firenigga.alive = 0;
+    else if ((*RUNApointer3 == 1 || *RUNApointer3 == 2) && (abs((firenigga.Xe - player.Xp)) < 260)) {
+        firenigga.hp--;
         firenigga.checkstate();
     }
-    else if(*DSFpointer4 == 4 && (abs((firenigga.Xe - player.Xp)) < 260) || *DSFpointer4 == 5 && (abs((firenigga.Xe - player.Xp)) < 260) || *DSFpointer4 == 3 && (abs((firenigga.Xe - player.Xp)) < 260) ||(*DSFpointer4 == 6 && (abs((firenigga.Xe - player.Xp)) < 260))){
-        firenigga.alive = 0;
+    else if ((*DSFpointer4 == 5 || *DSFpointer4 == 6) && (abs((firenigga.Xe - player.Xp)) < 250)) {
+        firenigga.hp--;
         firenigga.checkstate();
     }
-    else 
+    else
 
 
-    return;
+        return;
 
 }
 
@@ -813,11 +853,12 @@ int main() {
     graphics.hideCursor();
     burn firenigga;
     Guts player;
+    wolf grandma;
 
     player.hp = 3;
     bool hitflag = 0;
     Mainmenu();
-    
+
     player.loadidleF();
     player.loadbasicRunningSprites();
     player.loadbasicRunningSpritesR();
@@ -842,29 +883,38 @@ int main() {
     }
 
     while (1) {
-        
+
         graphics.beginDraw();
         firstlevel(player);
         player.back2start();
 
-        
+
 
         player.movementF();
-        firenigga.burnatk(player);
+        if (player.stagecount == 1 ) {
+            firenigga.burnatk(player);
+
+        }
+        if (player.stagecount == 2) {
+            grandma.wolfmove();
+            grandma.wolfatck(player);
+        }
+        
+        
         hitlogic(player, firenigga, QApointer);
         firenigga.checkstate();
         if (player.hp <= 0) {
             graphics.fillScreen(BLACK);
             graphics.setFontSizeAndBoldness(100, 50);
-            graphics.drawText(player.Xp, player.Yp-200,"YOU HAVE DIED !");
-            graphics.drawText(graphics.getWindowWidth() / 2 - 500, graphics.getWindowHeight() / 2 -200, "press f to close the game");
+            graphics.drawText(player.Xp, player.Yp - 200, "YOU HAVE DIED !");
+            graphics.drawText(graphics.getWindowWidth() / 2 - 500, graphics.getWindowHeight() / 2 - 200, "press f to close the game");
             if (_kbhit())
             {
                 char ch = _getch();
                 if (ch == 'F' || ch == 'f')
                     break;
             }
-           
+
         }
         graphics.endDraw();
         waitForTime(30);
