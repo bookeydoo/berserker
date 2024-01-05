@@ -328,7 +328,7 @@ public:
                 }
                 else if (framedirection == 0) {
                     Xp += 200;
-                    graphics.drawImage(dodgeR, Xp, Yp + 100, 1);
+                    graphics.drawImage(dodgeR, Xp, Yp + 100, WHITE);
                 }
                 break;
 
@@ -796,7 +796,7 @@ int main() {
     player.hp = 3;
     bool hitflag = 0;
     Mainmenu();
-
+    
     player.loadidleF();
     player.loadbasicRunningSprites();
     player.loadbasicRunningSpritesR();
@@ -821,7 +821,7 @@ int main() {
     }
 
     while (1) {
-        player.checkstate();
+        
         graphics.beginDraw();
         firstlevel(player);
         player.back2start();
@@ -832,7 +832,19 @@ int main() {
         firenigga.burnatk(player);
         hitlogic(player, firenigga, QApointer);
         firenigga.checkstate();
-
+        if (player.hp <= 0) {
+            graphics.fillScreen(BLACK);
+            graphics.setFontSizeAndBoldness(100, 50);
+            graphics.drawText(player.Xp, player.Yp-200,"YOU HAVE DIED !");
+            graphics.drawText(graphics.getWindowWidth() / 2 - 500, graphics.getWindowHeight() / 2 -200, "press f to close the game");
+            if (_kbhit())
+            {
+                char ch = _getch();
+                if (ch == 'F' || ch == 'f')
+                    break;
+            }
+           
+        }
         graphics.endDraw();
         waitForTime(30);
     }
