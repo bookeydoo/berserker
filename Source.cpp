@@ -12,6 +12,8 @@ CC212SGL graphics;
 int terrain;
 #define _CRT_SECURE_NO_WARNINGS
 
+
+
 bool hitflag = 0;
 //framelimit =70
 int FramesPerSec = 30;
@@ -52,6 +54,7 @@ public:
     int dodgeR = 0;
     int* idleF;
     int* idleF_R;
+    int enemycount=12; 
 
     Guts() {
         w = graphics.getWindowWidth();
@@ -78,7 +81,7 @@ public:
     }
     //loading functions except for goodending and mainmenu
     void goodending() {
-        if (winflag) {
+       
             int happyending = graphics.loadImage("Generalimages\\happyending.jpg");
             graphics.resizeImage(happyending, w, h);
             while (1) {
@@ -100,7 +103,7 @@ public:
                 }
                 graphics.endDraw();
 
-            }
+            
         }
 
 
@@ -328,7 +331,7 @@ public:
                 }
                 else if (framedirection == 0) {
                     Xp += 200;
-                    graphics.drawImage(dodgeR, Xp, Yp + 100, 1);
+                    graphics.drawImage(dodgeR, Xp, Yp + 100, WHITE);
                 }
                 break;
 
@@ -587,9 +590,9 @@ public:
     bool alive = true;
     bool framedirection = 0;
     int Xe = (graphics.getWindowWidth() - 100), Ye = graphics.getWindowHeight() - 400;
-
+    int UXe;
     int hp = 1;
-
+   
     int h = graphics.getWindowHeight();
     int* mvFeR;//reverse
     int* mvFe = nullptr;// movement frames for enemies
@@ -626,23 +629,25 @@ public:
 
     }
 
-    void burnatk(Guts& player) {
+    void burnatk(Guts& player,int Vsp) {    //vsp stands for value added to starting postion this basically  will be used to change the starting postion of each enemy
         static int  FRAMES = 0;
         static int damageg = 0;
-        if (alive == true && player.Xp + 140 < Xe) {
+        int startingpostion = Xe;  
+       int UXe = startingpostion + Vsp;        //updated xe
+        if (alive == true && player.Xp + 140 < UXe) {
             framedirection = 0;
-            Xe -= 30;
-            graphics.drawImage(mvFe[FRAMES], Xe, graphics.getWindowHeight() - 400, 1);
+            UXe -= 30;
+            graphics.drawImage(mvFe[FRAMES], UXe, graphics.getWindowHeight() - 400, 1);
             FRAMES++;
 
         }
-        else if (alive == true && player.Xp + 140 > Xe) {
+        else if (alive == true && player.Xp + 140 > UXe) {
             framedirection = 0;
-            Xe += 30;
-            graphics.drawImage(mvFeR[FRAMES], Xe, graphics.getWindowHeight() - 400, 1);
+            UXe += 30;
+            graphics.drawImage(mvFeR[FRAMES], UXe, graphics.getWindowHeight() - 400, 1);
             FRAMES++;
         }
-        if (alive == true && abs((Xe - player.Xp)) < 150) {
+        if (alive == true && abs((UXe - player.Xp)) < 150) {
             graphics.drawImage(player.Hframes[damageg], player.Xp -= 30, player.Yp + 140, 1);
             player.hp--;
             damageg++;
@@ -657,11 +662,12 @@ public:
         if (hp == 0) {
             Ye = 2 * h;
             alive = 0;
+            player.enemycount--;
         }
     }
     void checkstate() {
         if (!alive) {
-            graphics.drawImage(mvFe[0], Xe, graphics.getWindowHeight() * 2, 1);
+            graphics.drawImage(mvFe[0], UXe, graphics.getWindowHeight() * 2, 1);
         }
         return;
     }
@@ -736,18 +742,18 @@ void waitForTime(int start)
         }
     }
 }
-void hitlogic(Guts& player, burn& firenigga, int* frame) {
-    if (  (abs((firenigga.Xe - player.Xp)) < 260)&& *QApointer == 3) {
-        firenigga.alive = 0;
-        firenigga.checkstate();
+void hitlogic(Guts& player, burn& fireEnemies, int* frame) {
+    if (  (abs((fireEnemies.Xe - player.Xp)) < 260)&& *QApointer == 3) {
+        fireEnemies.alive = 0;
+        fireEnemies.checkstate();
     }
-    else if (*RUNApointer3 == 1 &&(abs(firenigga.Xe)-player.Xp)<260 || *RUNApointer3 == 2 && (abs((firenigga.Xe - player.Xp)) < 260)) {
-        firenigga.alive = 0;
-        firenigga.checkstate();
+    else if (*RUNApointer3 == 1 &&(abs(fireEnemies.Xe)-player.Xp)<260 || *RUNApointer3 == 2 && (abs((fireEnemies.Xe - player.Xp)) < 260)) {
+        fireEnemies.alive = 0;
+        fireEnemies.checkstate();
     }
-    else if(*DSFpointer4 == 4 && (abs((firenigga.Xe - player.Xp)) < 260) || *DSFpointer4 == 5 && (abs((firenigga.Xe - player.Xp)) < 260) || *DSFpointer4 == 3 && (abs((firenigga.Xe - player.Xp)) < 260) ||(*DSFpointer4 == 6 && (abs((firenigga.Xe - player.Xp)) < 260))){
-        firenigga.alive = 0;
-        firenigga.checkstate();
+    else if(*DSFpointer4 == 4 && (abs((fireEnemies.Xe - player.Xp)) < 260) || *DSFpointer4 == 5 && (abs((fireEnemies.Xe - player.Xp)) < 260) || *DSFpointer4 == 3 && (abs((fireEnemies.Xe - player.Xp)) < 260) ||(*DSFpointer4 == 6 && (abs((fireEnemies.Xe - player.Xp)) < 260))){
+        fireEnemies.alive = 0;
+        fireEnemies.checkstate();
     }
     else 
 
@@ -787,16 +793,23 @@ void Mainmenu() {
 }
 
 int main() {
+    
+    
+
     graphics.setup();
     graphics.setFullScreenMode();
     graphics.hideCursor();
-    burn firenigga;
     Guts player;
+    burn fireEnemies;
+    int randposition[12];
 
+    for (int i=0;i < 12;i++) {
+         randposition[i] = (rand() % 501) + 500;
+    }
     player.hp = 3;
     bool hitflag = 0;
     Mainmenu();
-
+    
     player.loadidleF();
     player.loadbasicRunningSprites();
     player.loadbasicRunningSpritesR();
@@ -811,7 +824,7 @@ int main() {
     player.loadDodgeSprites();
     player.loadQAspritesR();
     player.loadRunA();
-    firenigga.BurnWalk();
+    fireEnemies.BurnWalk();
     char* ch = (char*)malloc(sizeof(char)); // Allocate memory for char
 
 
@@ -821,18 +834,44 @@ int main() {
     }
 
     while (1) {
-        player.checkstate();
+
         graphics.beginDraw();
         firstlevel(player);
         player.back2start();
 
-        
+
 
         player.movementF();
-        firenigga.burnatk(player);
-        hitlogic(player, firenigga, QApointer);
-        firenigga.checkstate();
+        if (player.stagecount == 1) {
+            fireEnemies.burnatk(player, randposition[0]);
+            fireEnemies.burnatk(player, randposition[1]);
+        }
+        else if (player.stagecount==2) {
+            fireEnemies.burnatk(player, randposition[2]);
+            fireEnemies.burnatk(player, randposition[3]);
+            fireEnemies.burnatk(player, randposition[4]);
+            fireEnemies.burnatk(player, randposition[5]);
+        }
 
+        hitlogic(player, fireEnemies, QApointer);
+        fireEnemies.checkstate();
+        if (player.hp <= 0) {
+            graphics.fillScreen(BLACK);
+            graphics.setFontSizeAndBoldness(100, 50);
+            graphics.drawText(player.Xp, player.Yp-200,"YOU HAVE DIED !");
+            graphics.drawText(graphics.getWindowWidth() / 2 - 500, graphics.getWindowHeight() / 2 -200, "press f to close the game");
+            if (_kbhit())
+            {
+                char ch = _getch();
+                if (ch == 'F' || ch == 'f')
+                    break;
+            }
+           if(player.enemycount==0){
+               player.goodending();
+           }
+
+
+        }
         graphics.endDraw();
         waitForTime(30);
     }
