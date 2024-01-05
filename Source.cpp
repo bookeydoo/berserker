@@ -797,18 +797,18 @@ void waitForTime(int start)
         }
     }
 }
-void hitlogic(Guts& player, burn& firenigga, int* frame) {
-    if ((abs((firenigga.Xe - player.Xp)) < 260) && *QApointer == 3) {
-        firenigga.hp--;
-        firenigga.checkstate();
+void hitlogic(Guts& player, burn& fireEnemy, int* frame) {
+    if ((abs((fireEnemy.Xe - player.Xp)) < 260) && *QApointer == 3) {
+        fireEnemy.hp--;
+        fireEnemy.checkstate();
     }
-    else if ((*RUNApointer3 == 1 || *RUNApointer3 == 2) && (abs((firenigga.Xe - player.Xp)) < 260)) {
-        firenigga.hp--;
-        firenigga.checkstate();
+    else if ((*RUNApointer3 == 1 || *RUNApointer3 == 2) && (abs((fireEnemy.Xe - player.Xp)) < 260)) {
+        fireEnemy.hp--;
+        fireEnemy.checkstate();
     }
-    else if ((*DSFpointer4 == 5 || *DSFpointer4 == 6) && (abs((firenigga.Xe - player.Xp)) < 250)) {
-        firenigga.hp--;
-        firenigga.checkstate();
+    else if ((*DSFpointer4 == 5 || *DSFpointer4 == 6) && (abs((fireEnemy.Xe - player.Xp)) < 250)) {
+        fireEnemy.hp--;
+        fireEnemy.checkstate();
     }
     else
 
@@ -851,7 +851,7 @@ int main() {
     graphics.setup();
     graphics.setFullScreenMode();
     graphics.hideCursor();
-    burn firenigga;
+    burn fireEnemy;
     Guts player;
     wolf grandma;
 
@@ -873,7 +873,7 @@ int main() {
     player.loadDodgeSprites();
     player.loadQAspritesR();
     player.loadRunA();
-    firenigga.BurnWalk();
+    fireEnemy.BurnWalk();
     char* ch = (char*)malloc(sizeof(char)); // Allocate memory for char
 
 
@@ -892,7 +892,7 @@ int main() {
 
         player.movementF();
         if (player.stagecount == 1 ) {
-            firenigga.burnatk(player);
+            fireEnemy.burnatk(player);
 
         }
         if (player.stagecount == 2) {
@@ -901,8 +901,8 @@ int main() {
         }
         
         
-        hitlogic(player, firenigga, QApointer);
-        firenigga.checkstate();
+        hitlogic(player, fireEnemy, QApointer);
+        fireEnemy.checkstate();
         if (player.hp <= 0) {
             graphics.fillScreen(BLACK);
             graphics.setFontSizeAndBoldness(100, 50);
